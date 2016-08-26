@@ -1,0 +1,5 @@
+2016.8.26
+	服务器:
+		SecurityDao.java 验证id-password的合法性
+		所有dao层的所有方法都要经过id-password合法性验证,且没有id的要关联出userId
+		

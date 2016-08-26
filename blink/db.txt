@@ -1,0 +1,142 @@
+更新记录：
+新宣传语01：您有什么想说的我们帮您说，有什么想问的我们帮您问！
+12.18	1.一见钟情的人可以被附近的人看到，但是没有眨眼和被眨眼的机会。
+	2.用户一开始便要注明自己的感情状态：已婚，恋爱中，单身，单身爸爸，单身妈妈。
+12.19	动态150字， 动态评论50字； 话题2000字，话题评论500字；
+	一级回复根据时间升序排序；
+
+2016.8.23 把所有的时间格式改为datetime, tinyint长度改为1 即0-256
+	
+	
+	字段		说明		可空否
+1 user(用户表)
+	u_id		系统id		0  int  主键           
+	u_phone		手机号		0       varchar(20)
+	u_password	密码		0  20字 varchar(20)
+	u_nickName	昵称		0  8字  varchar(20)
+	u_sex		性别		0  默认女     tinyint 0:女 1:男 2:女同 3:男同
+	u_birth		出生日期	0       int 用时间戳表示
+	u_affective	情感状态	0  默认单身 0:单身，1:恋爱中，2:已婚，3:单身妈妈，4:单身爸爸
+	u_headImg	头像路径	1  300字 无头像的配默认图片做头像
+	u_sign		个性签名	1  25字
+	u_occupation	公司及职业	1  12字
+	u_sealUp	封号否		0  默认为0未封号 0:未封号 1:封号
+	u_sealUpReason	封号原因	1  250字
+	u_createDate	注册日期	0  int 时间戳
+	u_blinkerId	一见钟情id	1  
+	
+1.1 userImg(用户图片表)
+	uImg_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	uImg_img	图片路径	0  300字
+
+1.2 blinkers(眨眼映射表 注意去重复)
+	bk_id		系统id		0  主键
+	bk_blinkerId	眨眼者id	0  外键 user：u_id
+	bk_blinkeredId	被眨眼者id	0  外键 user：u_id
+
+2 user_detail(用户详细表)
+	ud_id		系统id		0  主键 int
+	u_id		用户表主键	0  外键 user：u_id int
+	ud_hight	身高(cm)	1  int
+	ud_weight	体重(kg)	1  int
+	ud_salary	月薪(元)	1  int
+	ud_settlement	未来定居地	1  12字
+	ud_liveparents	婚后是父母同住	1  0:否 1:是
+	ud_education	学历		1  10字
+
+	ud_hometown	家乡		1  12字
+	ud_location	所在地		1
+	
+	ud_virgin	处男/女否	1  0:否 1:是 默认 否
+	ud_snore	打呼噜否	1  0:否 1:是 默认 是
+	ud_driving	驾照类别	1  12字		
+	ud_bodyOdor	狐臭否		1  0:否 1:是 默认 是
+	ud_ownHouse	房子类别	1  0:无 1:乡村 2:城镇  默认 无
+	ud_ownCar	车子类别	1  字12
+
+	ud_states	动态数		1
+	ud_topics	发起话题数	1
+	ud_replyTopics	回复话题数	1
+
+	ud_blinks	眨眼数		0  默认0 
+	ud_blinkeds	被眨眼数	0  默认0
+	ud_breaks	分手数		0  默认0
+	
+
+3 movie(电影表-爱好)	
+	mo_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	mo_name		电影名		0  字12
+	mo_img		图片路径	1  字250
+	mo_share	分享链接	1  250字
+	mo_understanding你的理解	1  250字
+
+4 book(书表-爱好)
+	bk_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	bk_name		书名		0  12字
+	bk_img		图片路径	1  250字
+	bk_share	分享链接	1  250字
+	bk_understanding你的理解	1  250字
+
+5 music(音乐表-爱好)
+	ms_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	ms_name		音乐名		0  12字
+	ms_img		图片路径	1  250字
+	ms_share	分享链接	1  250字
+	ms_understanding你的理解	1  250字
+
+6 mv(MV表-爱好)
+	mv_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	mv_name		mv名		0  20字
+	mv_img		图片路径	1  250字
+	mv_share	分享链接	1  250字
+	mv_understanding你的理解	1  250字
+
+7 dynamic(动态表)
+	dnc_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	dnc_describe	动态描述	0  150字
+	dnc_date	动态日期	0  yy-mm-dd-hh-m-s
+
+7.1 dynamicImg(动态配图表)
+
+	dImg_id		系统id		0  主键
+	dnc_id		动态表主键	0  外键 dynamic：dnc_id
+	dImg_img	图片路径	0  字250
+	
+8 topic(话题表)
+	tc_id		系统id		0  主键
+	u_id		用户表主键	0  外键 user：u_id
+	tc_type		话题类型	0  12字 【影评】【旅游】【音乐】【搞笑视频链接】【小咖秀链接】【音悦台链接】【哔哩哔哩链接】【斗鱼链接】【YY链接】
+	tc_name		话题名		0  24字
+	tc_date		话题创建时间	0  yy-mm-dd-hh-m-s
+	tc_describe	话题正文	0  8000字
+	
+8.1 topicImg(话题配图表)
+	tImg_id		系统id		0  主键
+	tc_id		话题表主键	0  外键 topic：tc_id
+	tImg_img	图片路径	0  250字
+
+8.2 topicReply(话题一级回复表)
+	tcR_id		系统id		0  主键
+	tc_id		话题表主键	0  外键 topic：tc_id
+	u_id		用户表主键	0  外键 user：u_id
+	tcR_content	回复正文	0  500字
+	tcR_date	回复时间	0  yy-mm-dd-hh-m-s
+
+8.3 topicReply2(话题二级回复表)
+	tcR2_id		系统id		0  主键
+	tcR_id		一级回复id	0  外键 topicReply：tcR_id
+	tcR2_replyId	回复者id	0  外键 user：u_id
+	tcR2_replyedId	被回复者id	0  外键 user：u_id 
+	
+	
+	
+	
+
+	
+	

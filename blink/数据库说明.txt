@@ -1,0 +1,12 @@
+user和userdetail表 不能删除数据
+用户有以下功能：
+1.用户信息-user&userdetail：： 这两张表不允许删除数据（实际上想qq，人人这些软件数据库的主表是不允许删除的，密码没了可以申请换密码）
+2.mvlist（mv表），movielist（movie表），musiclist（music表），booklist （book表） 可以删除
+3.userimglist（userimg表-用户的照片）可以删除
+4.被自己眨眼过的人的list（binkered表）不可以删除
+5.对自己眨眼过的人的list（blinker表）不可以删除
+6.关注的人的list（attention）可以删除
+7.动态的list（dynamic表和dynamicimg表，这里只要删了dynamic就会级联删除dynamicimg）可以删除
+8.话题list（topic表）可以删但是会级联删除topicreply和topicreply2以及topicconnection
+9.一级回复list（topicreply） 可以删除但是会级联删除二级回复（topicreply2表）
+10.话题收藏（topiccollection表）可以删除
