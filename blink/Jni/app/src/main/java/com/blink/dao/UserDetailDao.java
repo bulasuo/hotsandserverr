@@ -6,6 +6,7 @@ import com.blink.exception.OnExceptionListener;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -19,7 +20,7 @@ public class UserDetailDao extends BaseDao {
         Connection conn = DbConn.getConnSql();
         if (conn != null) {
             try {
-                String sql = " INSERT INTO book(u_id, ud_height, ud_weight," +
+                String sql = " INSERT INTO user_detail(u_id, ud_height, ud_weight," +
                         "ud_salary, ud_settlement, ud_liveparents, ud_education," +
                         "ud_hometown, ud_location, ud_virgin, ud_snore, ud_driving," +
                         "ud_bodyOdor, ud_ownHouse, ud_ownCar, ud_states, ud_topics," +
@@ -110,7 +111,7 @@ public class UserDetailDao extends BaseDao {
         Connection conn = DbConn.getConnSql();
         if(conn!=null){
             try {
-                String sql = " update book set ud_height=?, ud_weight=?," +
+                String sql = " update user_detail set ud_height=?, ud_weight=?," +
                         "ud_salary=?, ud_settlement=?, ud_liveparents=?, ud_education=?," +
                         "ud_hometown=?, ud_location=?, ud_virgin=?, ud_snore=?, ud_driving=?," +
                         "ud_bodyOdor=?, ud_ownHouse=?, ud_ownCar=?, ud_states=?, ud_topics=?," +
@@ -151,54 +152,57 @@ public class UserDetailDao extends BaseDao {
         return i;
     }
 
-//    public static ArrayList<Book> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-//        ArrayList<Book> list = null;
-//        ResultSet rs = null;
-//        PreparedStatement ps = null;
-//        Connection conn = DbConn.getConnSql();
-//        if (conn != null) {
-//            try {
-//                String sql = " select * from book where u_id=? ";
-//                ps = conn.prepareStatement(sql);
-//                ps.setInt(1, userId);
-//                rs = ps.executeQuery();
-//                list = paseAsBookList(rs);
-//            } catch (SQLException e){
-//                exceptionInterface.onSQLException(e);
-//            } catch (Exception e) {
-//                exceptionInterface.onException(e);
-//            } finally {
-//                DbConn.close(rs);
-//                DbConn.close(ps);
-//                DbConn.close(conn);
-//            }
-//        }
-//        return list;
-//    }
-//
-//    public static Book paseAsBook(ResultSet rs) throws SQLException {
-//        if(rs == null)
-//            return null;
-//        final Book book = new Book(rs.getInt("bk_id"),
-//                rs.getString("bk_img"),
-//                rs.getString("bk_name"),
-//                rs.getString("bk_share"),
-//                rs.getString("bk_understanding"),
-//                rs.getInt("u_id"));
-//        return book;
-//    }
-//
-//    public static ArrayList<Book> paseAsBookList(ResultSet rs) throws SQLException{
-//        if(rs == null)
-//            return null;
-//        ArrayList<Book> list = null;
-//        if(rs.next()){
-//            list = new ArrayList<>();
-//            list.add(paseAsBook(rs));
-//            while(rs.next()){
-//                list.add(paseAsBook(rs));
-//            }
-//        }
-//        return list;
-//    }
+    public static UserDetail queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        UserDetail userDetail = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        Connection conn = DbConn.getConnSql();
+        if (conn != null) {
+            try {
+                String sql = " select * from user_detail where u_id=? ";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, userId);
+                rs = ps.executeQuery();
+                userDetail = paseAsUserDetail(rs);
+            } catch (SQLException e){
+                exceptionInterface.onSQLException(e);
+            } catch (Exception e) {
+                exceptionInterface.onException(e);
+            } finally {
+                DbConn.close(rs);
+                DbConn.close(ps);
+                DbConn.close(conn);
+            }
+        }
+        return userDetail;
+    }
+
+    public static UserDetail paseAsUserDetail(ResultSet rs) throws SQLException {
+        if(rs == null)
+            return null;
+        final UserDetail userDetail = new UserDetail(
+                rs.getInt("ud_id"),
+                rs.getInt("ud_blinkeds"),
+                rs.getInt("ud_blinks"),
+                rs.getByte("ud_bodyOdor"),
+                rs.getInt("ud_breaks"),
+                rs.getString("ud_driving"),
+                rs.getString("ud_education"),
+                rs.getInt("ud_height"),
+                rs.getString("ud_hometown"),
+                rs.getByte("ud_liveparents"),
+                rs.getString("ud_location"),
+                rs.getString("ud_ownCar"),
+                rs.getByte("ud_ownHouse"),
+                rs.getInt("ud_replyTopics"),
+                rs.getInt("ud_salary"),
+                rs.getString("ud_settlement"),
+                rs.getByte("ud_snore"),
+                rs.getInt("ud_states"),
+                rs.getInt("ud_topics"),
+                rs.getByte("ud_virgin"),
+                rs.getInt("ud_weight"),
+                rs.getInt("u_id"));
+        return userDetail;
+    }
 }

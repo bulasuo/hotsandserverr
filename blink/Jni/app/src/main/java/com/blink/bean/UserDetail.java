@@ -36,7 +36,11 @@ public class UserDetail implements Serializable {
 	public UserDetail() {
 	}
 
-	public UserDetail(int udId, int udBlinkeds, int udBlinks, byte ud_bodyOdor, int udBreaks, String udDriving, String udEducation, int udHeight, String udHometown, byte udLiveparents, String udLocation, String ud_ownCar, byte ud_ownHouse, int ud_replyTopics, int udSalary, String udSettlement, byte udSnore, int udStates, int udTopics, byte udVirgin, int udWeight, int u_id) {
+	public UserDetail(int udId, int udBlinkeds, int udBlinks, byte ud_bodyOdor, int udBreaks,
+					  String udDriving, String udEducation, int udHeight, String udHometown,
+					  byte udLiveparents, String udLocation, String ud_ownCar, byte ud_ownHouse,
+					  int ud_replyTopics, int udSalary, String udSettlement, byte udSnore,
+					  int udStates, int udTopics, byte udVirgin, int udWeight, int u_id) {
 		this.udId = udId;
 		this.udBlinkeds = udBlinkeds;
 		this.udBlinks = udBlinks;
