@@ -5,8 +5,10 @@ package com.blink.security;
  */
 public class SecurityDao {
 
-    public static boolean isLegal(){
-        // TODO: 2016/8/26  
-        
-    }
+//    public static boolean isLegal(){
+//        // TODO: 2016/8/26
+//
+//    }
+
+//    ssssssssssssssssssssssssssssssssss
 }
