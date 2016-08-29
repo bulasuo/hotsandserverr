@@ -16,6 +16,28 @@ public class TopicReply2DaoTest {
             }
         }));*/
 
+        /**
+         * query
+         */
+        /*for(TopicReply2HS topicReply2HS: TopicReply2Dao.queryByTopicReplyId(1, new OnExceptionListener() {
+            @Override
+            public void onSQLException(SQLException e) {
+                super.onSQLException(e);
+                System.out.println("Exception:" + e.toString());
+            }
+        }))
+                System.out.println(topicReply2HS.toString());*/
+
+        /**
+         * delete
+         */
+        /*System.out.println("result:"+ TopicReply2Dao.deleteById(2, new OnExceptionListener() {
+            @Override
+            public void onSQLException(SQLException e) {
+                super.onSQLException(e);
+                System.out.println("Exception:" + e.toString());
+            }
+        }));*/
 
         /**
          * insert

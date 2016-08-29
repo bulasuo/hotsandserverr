@@ -31,6 +31,18 @@ public class TopicReply2HS implements Serializable {
 		this.tcR_id = tcR_id;
 	}
 
+	@Override
+	public String toString() {
+		return "TopicReply2HS{" +
+				"tcR2_id=" + tcR2_id +
+				", tcR2_u_id=" + tcR2_u_id +
+				", tcR_u_id=" + tcR_u_id +
+				", tcR2_content='" + tcR2_content + '\'' +
+				", tcR2_date=" + tcR2_date +
+				", tcR_id=" + tcR_id +
+				'}';
+	}
+
 	public int getTcR2_id() {
 		return this.tcR2_id;
 	}
