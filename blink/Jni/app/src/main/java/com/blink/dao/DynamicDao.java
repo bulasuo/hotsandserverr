@@ -68,14 +68,11 @@ public class DynamicDao extends BaseDao{
         Connection conn = DbConn.getConnSql();
         if(conn!=null){
             try {
-                String sql = " update dynamic set u_id=?,dnc_describe=?" +
-                        ",dnc_date=? " +
+                String sql = " update dynamic set dnc_describe=? " +
                         "where dnc_id=? ";
                 ps = conn.prepareStatement(sql);
-                ps.setInt(1, dynamic.getU_id());
-                ps.setString(2, dynamic.getDncDescribe());
-                ps.setTimestamp(3, dynamic.getDncDate());
-                ps.setInt(4, dynamic.getDncId());
+                ps.setString(1, dynamic.getDncDescribe());
+                ps.setInt(2, dynamic.getDncId());
                 i=ps.executeUpdate();
             } catch (SQLException e){
                 exceptionInterface.onSQLException(e);

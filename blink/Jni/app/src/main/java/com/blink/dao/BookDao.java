@@ -70,16 +70,15 @@ public class BookDao extends BaseDao {
         Connection conn = DbConn.getConnSql();
         if(conn!=null){
             try {
-                String sql = " update book set u_id=?,bk_name=?" +
+                String sql = " update book set bk_name=?" +
                         ",bk_img=?,bk_share=?,bk_understanding=? " +
                         "where bk_id=? ";
                 ps = conn.prepareStatement(sql);
-                ps.setInt(1, book.getU_id());
-                ps.setString(2, book.getBkName());
-                ps.setString(3, book.getBkImg());
-                ps.setString(4, book.getBkShare());
-                ps.setString(5, book.getBkUnderstanding());
-                ps.setInt(6, book.getBkId());
+                ps.setString(1, book.getBkName());
+                ps.setString(2, book.getBkImg());
+                ps.setString(3, book.getBkShare());
+                ps.setString(4, book.getBkUnderstanding());
+                ps.setInt(5, book.getBkId());
                 i=ps.executeUpdate();
             } catch (SQLException e){
                 exceptionInterface.onSQLException(e);

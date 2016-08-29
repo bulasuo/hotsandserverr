@@ -23,6 +23,15 @@ public class DynamicImg implements Serializable {
 		this.dnc_id = dnc_id;
 	}
 
+	@Override
+	public String toString() {
+		return "DynamicImg{" +
+				"dImg_id=" + dImg_id +
+				", dImg_img='" + dImg_img + '\'' +
+				", dnc_id=" + dnc_id +
+				'}';
+	}
+
 	public int getDImg_id() {
 		return this.dImg_id;
 	}

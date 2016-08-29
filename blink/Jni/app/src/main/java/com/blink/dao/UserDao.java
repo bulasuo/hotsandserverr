@@ -61,7 +61,7 @@ public class UserDao extends BaseDao{
      * @param user
      * @return
      */
-	public static int update(User user, OnExceptionListener exceptionInterface){
+	public static int updateByPhone(User user, OnExceptionListener exceptionInterface){
 		int i = -1;
 		PreparedStatement ps = null;
 		Connection conn = DbConn.getConnSql();
@@ -69,7 +69,7 @@ public class UserDao extends BaseDao{
 			try {
 				String sql = " update user set u_nickName=?,u_sex=?" +
                         ",u_birth=?,u_affective=?,u_headImg=?,u_sign=? " +
-                        ",u_occupation=?,u_sealUp=?,u_sealUpReason=?,u_createdate=? " +
+                        ",u_occupation=?,u_sealUp=?,u_sealUpReason=? " +
                         ",u_blinkerId=?,u_lat=?,u_lng=? " +
                         "where u_phone=? ";
 				ps = conn.prepareStatement(sql);
@@ -82,11 +82,10 @@ public class UserDao extends BaseDao{
                 ps.setString(7, user.getUOccupation());
                 ps.setByte(8, user.getU_sealUp());
                 ps.setString(9, user.getU_sealUpReason());
-                ps.setTimestamp(10, user.getU_createDate());
-                ps.setInt(11, user.getU_blinkerId());
-                ps.setDouble(12, user.getULat());
-                ps.setDouble(13, user.getULng());
-                ps.setString(14, user.getUPhone());
+                ps.setInt(10, user.getU_blinkerId());
+                ps.setDouble(11, user.getULat());
+                ps.setDouble(12, user.getULng());
+                ps.setString(13, user.getUPhone());
 				i=ps.executeUpdate();
             } catch (SQLException e){
                 exceptionInterface.onSQLException(e);
@@ -99,6 +98,44 @@ public class UserDao extends BaseDao{
 		}
 		return i;
 	}
+
+    public static int updateById(User user, OnExceptionListener exceptionInterface){
+        int i = -1;
+        PreparedStatement ps = null;
+        Connection conn = DbConn.getConnSql();
+        if(conn!=null){
+            try {
+                String sql = " update user set u_nickName=?,u_sex=?" +
+                        ",u_birth=?,u_affective=?,u_headImg=?,u_sign=? " +
+                        ",u_occupation=?,u_sealUp=?,u_sealUpReason=? " +
+                        ",u_blinkerId=?,u_lat=?,u_lng=? " +
+                        "where u_id=? ";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, user.getU_nickName());
+                ps.setByte(2, user.getUSex());
+                ps.setTimestamp(3, user.getUBirth());
+                ps.setByte(4, user.getUAffective());
+                ps.setString(5, user.getU_headImg());
+                ps.setString(6, user.getUSign());
+                ps.setString(7, user.getUOccupation());
+                ps.setByte(8, user.getU_sealUp());
+                ps.setString(9, user.getU_sealUpReason());
+                ps.setInt(10, user.getU_blinkerId());
+                ps.setDouble(11, user.getULat());
+                ps.setDouble(12, user.getULng());
+                ps.setInt(13, user.getUId());
+                i=ps.executeUpdate();
+            } catch (SQLException e){
+                exceptionInterface.onSQLException(e);
+            } catch (Exception e) {
+                exceptionInterface.onException(e);
+            }finally{
+                DbConn.close(ps);
+                DbConn.close(conn);
+            }
+        }
+        return i;
+    }
 
     /**
      * @author abu   2016/8/23   16:50

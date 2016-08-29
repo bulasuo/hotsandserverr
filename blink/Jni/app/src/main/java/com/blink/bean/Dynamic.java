@@ -28,6 +28,17 @@ public class Dynamic implements Serializable {
 		this.u_id = u_id;
 	}
 
+	@Override
+	public String toString() {
+		return "Dynamic{" +
+				"dncId=" + dncId +
+				", dncDate=" + dncDate +
+				", dncDescribe='" + dncDescribe + '\'' +
+				", u_id=" + u_id +
+				", dynamicimgs=" + dynamicimgs +
+				'}';
+	}
+
 	public int getDncId() {
 		return this.dncId;
 	}

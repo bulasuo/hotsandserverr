@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-08-25 17:35:32
+Date: 2016-08-29 15:12:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,7 +23,7 @@ CREATE TABLE `blinker` (
   `bk_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '系统id',
   `bk_blinkerId` int(10) unsigned NOT NULL COMMENT '眨眼者id',
   `bk_blinkeredId` int(10) unsigned NOT NULL COMMENT '被眨眼者id',
-  `bk_createDate` datetime(6) NOT NULL,
+  `bk_createDate` datetime NOT NULL,
   PRIMARY KEY (`bk_id`),
   UNIQUE KEY `unique_blinkerId_blinkeredId` (`bk_blinkerId`,`bk_blinkeredId`),
   KEY `bk_blinkeredId` (`bk_blinkeredId`) USING BTREE,
@@ -35,12 +35,12 @@ CREATE TABLE `blinker` (
 -- ----------------------------
 -- Records of blinker
 -- ----------------------------
-INSERT INTO `blinker` VALUES ('32', '26', '30', '2016-09-15 20:20:03.000000');
-INSERT INTO `blinker` VALUES ('36', '31', '32', '2016-09-15 20:20:03.000000');
-INSERT INTO `blinker` VALUES ('39', '26', '31', '2016-09-15 20:20:03.000000');
-INSERT INTO `blinker` VALUES ('40', '26', '32', '2016-09-15 20:20:03.000000');
-INSERT INTO `blinker` VALUES ('41', '31', '26', '2016-09-15 20:20:03.000000');
-INSERT INTO `blinker` VALUES ('42', '31', '30', '2016-09-15 20:20:03.000000');
+INSERT INTO `blinker` VALUES ('32', '26', '30', '2016-09-15 20:20:03');
+INSERT INTO `blinker` VALUES ('36', '31', '32', '2016-09-15 20:20:03');
+INSERT INTO `blinker` VALUES ('39', '26', '31', '2016-09-15 20:20:03');
+INSERT INTO `blinker` VALUES ('40', '26', '32', '2016-09-15 20:20:03');
+INSERT INTO `blinker` VALUES ('41', '31', '26', '2016-09-15 20:20:03');
+INSERT INTO `blinker` VALUES ('42', '31', '30', '2016-09-15 20:20:03');
 
 -- ----------------------------
 -- Table structure for `book`
@@ -73,15 +73,17 @@ CREATE TABLE `dynamic` (
   `dnc_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '系统id',
   `u_id` int(10) unsigned NOT NULL COMMENT '外键 user：u_id',
   `dnc_describe` varchar(300) NOT NULL COMMENT '动态描述',
-  `dnc_date` datetime(6) NOT NULL COMMENT '动态日期',
+  `dnc_date` datetime NOT NULL COMMENT '动态日期',
   PRIMARY KEY (`dnc_id`),
   KEY `dynamic_user` (`u_id`),
   CONSTRAINT `dynamic_user` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of dynamic
 -- ----------------------------
+INSERT INTO `dynamic` VALUES ('3', '26', '', '2016-09-15 20:20:03');
+INSERT INTO `dynamic` VALUES ('6', '26', '呵呵哒bulasuo', '2016-09-15 20:20:03');
 
 -- ----------------------------
 -- Table structure for `dynamicimg`
@@ -169,7 +171,7 @@ CREATE TABLE `topic` (
   `u_id` int(10) unsigned NOT NULL COMMENT '外键 user：u_id',
   `tc_type` varchar(20) NOT NULL COMMENT '话题类型	【影评】【旅游】【音乐】【搞笑视频链接】【小咖秀链接】【音悦台链接】【哔哩哔哩链接】【斗鱼链接】【YY链接】',
   `tc_name` varchar(100) NOT NULL COMMENT '话题名',
-  `tc_date` datetime(6) NOT NULL COMMENT '话题创建时间',
+  `tc_date` datetime NOT NULL COMMENT '话题创建时间',
   `tc_describe` varchar(10000) NOT NULL COMMENT '话题正文',
   PRIMARY KEY (`tc_id`),
   KEY `topic_user` (`u_id`),
@@ -206,7 +208,7 @@ CREATE TABLE `topicreply` (
   `tc_id` int(10) unsigned NOT NULL COMMENT '外键 topic：tc_id',
   `u_id` int(10) unsigned NOT NULL COMMENT '外键 user：u_id',
   `tcR_content` varchar(1000) NOT NULL COMMENT '回复正文',
-  `tcR_date` datetime(6) NOT NULL COMMENT '回复时间',
+  `tcR_date` datetime NOT NULL COMMENT '回复时间',
   PRIMARY KEY (`tcR_id`),
   KEY `topicReply_topic` (`tc_id`),
   KEY `topicReply_user` (`u_id`),
@@ -228,7 +230,7 @@ CREATE TABLE `topicreply2` (
   `tcR2_u_id` int(10) unsigned NOT NULL COMMENT '二级回复者id',
   `tcR_u_id` int(10) unsigned NOT NULL COMMENT '被回复者id即一级恢复者id',
   `tcR2_content` varchar(1000) NOT NULL,
-  `tcR2_date` datetime(6) NOT NULL,
+  `tcR2_date` datetime NOT NULL,
   PRIMARY KEY (`tcR2_id`),
   KEY `topicReply2_topicReply` (`tcR_id`),
   KEY `topicReply2_replyId` (`tcR2_u_id`),
@@ -252,14 +254,14 @@ CREATE TABLE `user` (
   `u_password` varchar(20) NOT NULL COMMENT '密码',
   `u_nickName` varchar(20) NOT NULL COMMENT '昵称',
   `u_sex` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '性别 0:女 1:男 2:女同 3:男同',
-  `u_birth` datetime(6) NOT NULL COMMENT '出生日期 时间戳',
+  `u_birth` datetime NOT NULL COMMENT '出生日期 时间戳',
   `u_affective` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '情感状态（0:单身，1:恋爱中，2:已婚，3:单身妈妈，4:单身爸爸）',
   `u_headImg` varchar(300) DEFAULT NULL COMMENT '头像路径',
   `u_sign` varchar(100) DEFAULT NULL COMMENT '个性签名',
   `u_occupation` varchar(100) DEFAULT NULL COMMENT '公司及职业',
   `u_sealUp` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '封号否',
   `u_sealUpReason` varchar(300) DEFAULT NULL COMMENT '封号原因',
-  `u_createDate` datetime(6) NOT NULL COMMENT '注册日期',
+  `u_createDate` datetime NOT NULL COMMENT '注册日期',
   `u_blinkerId` int(10) unsigned DEFAULT NULL COMMENT '一见钟情id',
   `u_lat` double(10,6) DEFAULT NULL COMMENT '经度',
   `u_lng` double(10,6) DEFAULT NULL COMMENT '纬度',
@@ -270,10 +272,10 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('26', '15062239788', '111111', '苏拉底', '1', '2016-09-15 20:20:03.000000', '31', 'https://www.baidu.com', '腰包满是银子,米加德遍地鲜花', '南京艺厘米文化科技有限公司', '0', '出轨啦,要死啦!', '2016-09-15 20:20:03.000000', '111', '0.000000', '0.000000');
-INSERT INTO `user` VALUES ('30', '15062239789', '111111', '苏拉底', '1', '2016-09-15 20:20:03.000000', '31', 'https://www.baidu.com', '腰包满是银子,米加德遍地鲜花', '南京艺厘米文化科技有限公司', '0', '出轨啦,要死啦!', '2016-09-15 20:20:03.000000', '111', '0.000000', '0.000000');
-INSERT INTO `user` VALUES ('31', '15062239777', '111111', '鑻忔媺搴�', '1', '2016-09-15 20:20:03.000000', '31', 'https://www.baidu.com', '鑵板寘婊℃槸閾跺瓙,绫冲姞寰烽亶鍦伴矞鑺�', '鍗椾含鑹哄帢绫虫枃鍖栫鎶�鏈夐檺鍏徃', '0', '鍑鸿建鍟�,瑕佹鍟�!', '2016-09-15 20:20:03.000000', '111', '0.000000', '0.000000');
-INSERT INTO `user` VALUES ('32', '15062239666', '111111', '苏拉底', '1', '2016-09-15 20:20:03.000000', '31', 'https://www.baidu.com', '腰包满是银子,米加德遍地鲜花', '南京艺厘米文化科技有限公司', '0', '出轨啦,要死啦!', '2016-09-15 20:20:03.000000', '111', '0.000000', '0.000000');
+INSERT INTO `user` VALUES ('26', '15062239788', '111111', '苏拉底', '1', '2016-09-15 20:20:03', '31', 'https://www.baidu.com', '腰包满是银子,米加德遍地鲜花', '南京艺厘米文化科技有限公司', '0', '出轨啦,要死啦!', '2016-09-15 20:20:03', '111', '0.000000', '0.000000');
+INSERT INTO `user` VALUES ('30', '15062239789', '111111', '苏拉底', '1', '2016-09-15 20:20:03', '31', 'https://www.baidu.com', '腰包满是银子,米加德遍地鲜花', '南京艺厘米文化科技有限公司', '0', '出轨啦,要死啦!', '2016-09-15 20:20:03', '111', '0.000000', '0.000000');
+INSERT INTO `user` VALUES ('31', '15062239777', '111111', '鑻忔媺搴�', '1', '2016-09-15 20:20:03', '31', 'https://www.baidu.com', '鑵板寘婊℃槸閾跺瓙,绫冲姞寰烽亶鍦伴矞鑺�', '鍗椾含鑹哄帢绫虫枃鍖栫鎶�鏈夐檺鍏徃', '0', '鍑鸿建鍟�,瑕佹鍟�!', '2016-09-15 20:20:03', '111', '0.000000', '0.000000');
+INSERT INTO `user` VALUES ('32', '15062239666', '111111', '苏拉底', '1', '2016-09-15 20:20:03', '31', 'https://www.baidu.com', '腰包满是银子,米加德遍地鲜花', '南京艺厘米文化科技有限公司', '0', '出轨啦,要死啦!', '2016-09-15 20:20:03', '111', '0.000000', '0.000000');
 
 -- ----------------------------
 -- Table structure for `userimg`
@@ -319,7 +321,7 @@ CREATE TABLE `user_detail` (
   `ud_blinks` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '眨眼数',
   `ud_blinkeds` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '被眨眼数',
   `ud_breaks` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '分手数',
-  PRIMARY KEY (`ud_id`),
+  PRIMARY KEY (`ud_id`,`u_id`),
   UNIQUE KEY `detail_user` (`u_id`) USING BTREE,
   CONSTRAINT `detail_user` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
