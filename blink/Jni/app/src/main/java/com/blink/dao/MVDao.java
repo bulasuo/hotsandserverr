@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.MV;
+import com.blink.bean.MVHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class MVDao extends BaseDao {
 
-    public static int insert(MV mv, OnExceptionListener exceptionInterface) {
+    public static int insert(MVHS mv, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -64,8 +64,8 @@ public class MVDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<MV> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<MV> list = null;
+    public static ArrayList<MVHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<MVHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -89,10 +89,10 @@ public class MVDao extends BaseDao {
         return list;
     }
 
-    public static MV paseAsMV(ResultSet rs) throws SQLException {
+    public static MVHS paseAsMV(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final MV mv = new MV(rs.getInt("mv_id"),
+        final MVHS mv = new MVHS(rs.getInt("mv_id"),
                 rs.getString("mv_img"),
                 rs.getString("mv_name"),
                 rs.getString("mv_share"),
@@ -101,10 +101,10 @@ public class MVDao extends BaseDao {
         return mv;
     }
 
-    public static ArrayList<MV> paseAsMVList(ResultSet rs) throws SQLException{
+    public static ArrayList<MVHS> paseAsMVList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<MV> list = null;
+        ArrayList<MVHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsMV(rs));

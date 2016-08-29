@@ -9,19 +9,19 @@ import java.util.List;
  * The persistent class for the dynamic database table.
  * 动态表
  */
-public class Dynamic implements Serializable {
+public class DynamicHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int dncId;
 	private Timestamp dncDate;
 	private String dncDescribe;
 	private int u_id;
-	private List<DynamicImg> dynamicimgs;
+	private List<DynamicImgHS> dynamicimgs;
 
-	public Dynamic() {
+	public DynamicHS() {
 	}
 
-	public Dynamic(int dncId, Timestamp dncDate, String dncDescribe, int u_id) {
+	public DynamicHS(int dncId, Timestamp dncDate, String dncDescribe, int u_id) {
 		this.dncId = dncId;
 		this.dncDate = dncDate;
 		this.dncDescribe = dncDescribe;
@@ -30,7 +30,7 @@ public class Dynamic implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Dynamic{" +
+		return "DynamicHS{" +
 				"dncId=" + dncId +
 				", dncDate=" + dncDate +
 				", dncDescribe='" + dncDescribe + '\'' +
@@ -71,11 +71,11 @@ public class Dynamic implements Serializable {
 		this.u_id = u_id;
 	}
 
-	public List<DynamicImg> getDynamicimgs() {
+	public List<DynamicImgHS> getDynamicimgs() {
 		return this.dynamicimgs;
 	}
 
-	public void setDynamicimgs(List<DynamicImg> dynamicimgs) {
+	public void setDynamicimgs(List<DynamicImgHS> dynamicimgs) {
 		this.dynamicimgs = dynamicimgs;
 	}
 

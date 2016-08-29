@@ -7,17 +7,17 @@ import java.io.Serializable;
  * The persistent class for the topicimg database table.
  * 话题配图表
  */
-public class TopicImg implements Serializable {
+public class TopicImgHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int tImg_id;
 	private String tImg_img;
 	private int tc_id;
 
-	public TopicImg() {
+	public TopicImgHS() {
 	}
 
-	public TopicImg(int tImg_id, String tImg_img, int tc_id) {
+	public TopicImgHS(int tImg_id, String tImg_img, int tc_id) {
 		this.tImg_id = tImg_id;
 		this.tImg_img = tImg_img;
 		this.tc_id = tc_id;

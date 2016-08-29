@@ -9,7 +9,7 @@ import java.util.List;
  * The persistent class for the topicreply database table.
  * 话题一级回复表
  */
-public class TopicReply implements Serializable {
+public class TopicReplyHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int tcR_id;
@@ -17,12 +17,12 @@ public class TopicReply implements Serializable {
 	private Timestamp tcR_date;
 	private int tc_id;
 	private int u_id;
-	private List<TopicReply2> topicreply2s;
+	private List<TopicReply2HS> topicreply2s;
 
-	public TopicReply() {
+	public TopicReplyHS() {
 	}
 
-	public TopicReply(int tcR_id, String tcR_content, Timestamp tcR_date, int tc_id, int u_id) {
+	public TopicReplyHS(int tcR_id, String tcR_content, Timestamp tcR_date, int tc_id, int u_id) {
 		this.tcR_id = tcR_id;
 		this.tcR_content = tcR_content;
 		this.tcR_date = tcR_date;
@@ -70,11 +70,11 @@ public class TopicReply implements Serializable {
 		this.u_id = u_id;
 	}
 
-	public List<TopicReply2> getTopicreply2s() {
+	public List<TopicReply2HS> getTopicreply2s() {
 		return this.topicreply2s;
 	}
 
-	public void setTopicreply2s(List<TopicReply2> topicreply2s) {
+	public void setTopicreply2s(List<TopicReply2HS> topicreply2s) {
 		this.topicreply2s = topicreply2s;
 	}
 

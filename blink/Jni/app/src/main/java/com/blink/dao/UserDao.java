@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.User;
+import com.blink.bean.UserHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -17,7 +17,7 @@ public class UserDao extends BaseDao{
      * user表不允许删除数据,正确删除是要先删除和user关联的子表才能删除user,
      * 但是实际上没必要删除user表的数据
      */
-    public static int insert(User user, OnExceptionListener exceptionInterface) {
+    public static int insert(UserHS user, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -61,7 +61,7 @@ public class UserDao extends BaseDao{
      * @param user
      * @return
      */
-	public static int updateByPhone(User user, OnExceptionListener exceptionInterface){
+	public static int updateByPhone(UserHS user, OnExceptionListener exceptionInterface){
 		int i = -1;
 		PreparedStatement ps = null;
 		Connection conn = DbConn.getConnSql();
@@ -99,7 +99,7 @@ public class UserDao extends BaseDao{
 		return i;
 	}
 
-    public static int updateById(User user, OnExceptionListener exceptionInterface){
+    public static int updateById(UserHS user, OnExceptionListener exceptionInterface){
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -141,8 +141,8 @@ public class UserDao extends BaseDao{
      * @author abu   2016/8/23   16:50
      * 根据phone和password查询 密码错误即返回null
      */
-    public static User queryByPhone(String phone, String password, OnExceptionListener exceptionInterface) {
-        User user = null;
+    public static UserHS queryByPhone(String phone, String password, OnExceptionListener exceptionInterface) {
+        UserHS user = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -167,10 +167,10 @@ public class UserDao extends BaseDao{
         return user;
     }
 
-    public static User paseAsUser(ResultSet rs) throws SQLException {
+    public static UserHS paseAsUser(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final User user = new User(rs.getInt("u_id"),
+        final UserHS user = new UserHS(rs.getInt("u_id"),
                 rs.getByte("u_affective"),
                 rs.getTimestamp("u_birth"),
                 rs.getInt("u_blinkerId"),
@@ -188,10 +188,10 @@ public class UserDao extends BaseDao{
         return user;
     }
 
-    public static ArrayList<User> paseAsUserList(ResultSet rs) throws SQLException{
+    public static ArrayList<UserHS> paseAsUserList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<User> list = null;
+        ArrayList<UserHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsUser(rs));

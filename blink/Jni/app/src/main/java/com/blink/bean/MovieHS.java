@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the movie database table.
  * 电影收藏表
  */
-public class Movie implements Serializable {
+public class MovieHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int moId;
@@ -17,16 +17,28 @@ public class Movie implements Serializable {
 	private String moUnderstanding;
 	private int u_id;
 
-	public Movie() {
+	public MovieHS() {
 	}
 
-	public Movie(int moId, String moImg, String moName, String moShare, String moUnderstanding, int u_id) {
+	public MovieHS(int moId, String moImg, String moName, String moShare, String moUnderstanding, int u_id) {
 		this.moId = moId;
 		this.moImg = moImg;
 		this.moName = moName;
 		this.moShare = moShare;
 		this.moUnderstanding = moUnderstanding;
 		this.u_id = u_id;
+	}
+
+	@Override
+	public String toString() {
+		return "MovieHS{" +
+				"moId=" + moId +
+				", moImg='" + moImg + '\'' +
+				", moName='" + moName + '\'' +
+				", moShare='" + moShare + '\'' +
+				", moUnderstanding='" + moUnderstanding + '\'' +
+				", u_id=" + u_id +
+				'}';
 	}
 
 	public int getMoId() {

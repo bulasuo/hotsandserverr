@@ -9,7 +9,7 @@ import java.util.List;
  * The persistent class for the topic database table.
  * 话题表
  */
-public class Topic implements Serializable {
+public class TopicHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int tcId;
@@ -18,14 +18,14 @@ public class Topic implements Serializable {
 	private String tcName;
 	private String tcType;
 	private int u_id;
-	private List<TopicCollect> topiccollects;
-	private List<TopicImg> topicimgs;
-	private List<TopicReply> topicreplies;
+	private List<TopicCollectHS> topiccollects;
+	private List<TopicImgHS> topicimgs;
+	private List<TopicReplyHS> topicreplies;
 
-	public Topic() {
+	public TopicHS() {
 	}
 
-	public Topic(int tcId, Timestamp tcDate, String tcDescribe, String tcName, String tcType, int u_id) {
+	public TopicHS(int tcId, Timestamp tcDate, String tcDescribe, String tcName, String tcType, int u_id) {
 		this.tcId = tcId;
 		this.tcDate = tcDate;
 		this.tcDescribe = tcDescribe;
@@ -82,27 +82,27 @@ public class Topic implements Serializable {
 		this.u_id = u_id;
 	}
 
-	public List<TopicCollect> getTopiccollects() {
+	public List<TopicCollectHS> getTopiccollects() {
 		return this.topiccollects;
 	}
 
-	public void setTopiccollects(List<TopicCollect> topiccollects) {
+	public void setTopiccollects(List<TopicCollectHS> topiccollects) {
 		this.topiccollects = topiccollects;
 	}
 
-	public List<TopicImg> getTopicimgs() {
+	public List<TopicImgHS> getTopicimgs() {
 		return this.topicimgs;
 	}
 
-	public void setTopicimgs(List<TopicImg> topicimgs) {
+	public void setTopicimgs(List<TopicImgHS> topicimgs) {
 		this.topicimgs = topicimgs;
 	}
 
-	public List<TopicReply> getTopicreplies() {
+	public List<TopicReplyHS> getTopicreplies() {
 		return this.topicreplies;
 	}
 
-	public void setTopicreplies(List<TopicReply> topicreplies) {
+	public void setTopicreplies(List<TopicReplyHS> topicreplies) {
 		this.topicreplies = topicreplies;
 	}
 

@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.Music;
+import com.blink.bean.MusicHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class MusicDao extends BaseDao {
 
-    public static int insert(Music music, OnExceptionListener exceptionInterface) {
+    public static int insert(MusicHS music, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -64,8 +64,8 @@ public class MusicDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<Music> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<Music> list = null;
+    public static ArrayList<MusicHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<MusicHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -89,10 +89,10 @@ public class MusicDao extends BaseDao {
         return list;
     }
 
-    public static Music paseAsMusic(ResultSet rs) throws SQLException {
+    public static MusicHS paseAsMusic(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final Music music = new Music(rs.getInt("ms_id"),
+        final MusicHS music = new MusicHS(rs.getInt("ms_id"),
                 rs.getString("ms_img"),
                 rs.getString("ms_name"),
                 rs.getString("ms_share"),
@@ -101,10 +101,10 @@ public class MusicDao extends BaseDao {
         return music;
     }
 
-    public static ArrayList<Music> paseAsMusicList(ResultSet rs) throws SQLException{
+    public static ArrayList<MusicHS> paseAsMusicList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<Music> list = null;
+        ArrayList<MusicHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsMusic(rs));

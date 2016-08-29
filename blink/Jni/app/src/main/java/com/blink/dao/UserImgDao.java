@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.UserImg;
+import com.blink.bean.UserImgHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class UserImgDao {
 
-    public static int insert(UserImg userImg, OnExceptionListener exceptionInterface) {
+    public static int insert(UserImgHS userImg, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -61,8 +61,8 @@ public class UserImgDao {
         return i;
     }
 
-    public static ArrayList<UserImg> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<UserImg> list = null;
+    public static ArrayList<UserImgHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<UserImgHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -86,19 +86,19 @@ public class UserImgDao {
         return list;
     }
 
-    public static UserImg paseAsUserImg(ResultSet rs) throws SQLException {
+    public static UserImgHS paseAsUserImg(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final UserImg userImg = new UserImg(rs.getInt("uImg_id"),
+        final UserImgHS userImg = new UserImgHS(rs.getInt("uImg_id"),
                 rs.getString("uImg_img"),
                 rs.getInt("u_id"));
         return userImg;
     }
 
-    public static ArrayList<UserImg> paseAsUserImgList(ResultSet rs) throws SQLException{
+    public static ArrayList<UserImgHS> paseAsUserImgList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<UserImg> list = null;
+        ArrayList<UserImgHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsUserImg(rs));

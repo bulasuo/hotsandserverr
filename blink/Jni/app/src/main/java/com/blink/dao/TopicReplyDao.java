@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.TopicReply;
+import com.blink.bean.TopicReplyHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class TopicReplyDao extends BaseDao{
 
-    public static int insert(TopicReply topicReply, OnExceptionListener exceptionInterface) {
+    public static int insert(TopicReplyHS topicReply, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -63,8 +63,8 @@ public class TopicReplyDao extends BaseDao{
         return i;
     }
 
-    public static ArrayList<TopicReply> queryByTopicId(int topicId, OnExceptionListener exceptionInterface) {
-        ArrayList<TopicReply> list = null;
+    public static ArrayList<TopicReplyHS> queryByTopicId(int topicId, OnExceptionListener exceptionInterface) {
+        ArrayList<TopicReplyHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -88,10 +88,10 @@ public class TopicReplyDao extends BaseDao{
         return list;
     }
 
-    public static TopicReply paseAsTopicReply(ResultSet rs) throws SQLException {
+    public static TopicReplyHS paseAsTopicReply(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final TopicReply topicReply = new TopicReply(rs.getInt("tcR_id"),
+        final TopicReplyHS topicReply = new TopicReplyHS(rs.getInt("tcR_id"),
                 rs.getString("tcR_content"),
                 rs.getTimestamp("tcR_date"),
                 rs.getInt("tc_id"),
@@ -99,10 +99,10 @@ public class TopicReplyDao extends BaseDao{
         return topicReply;
     }
 
-    public static ArrayList<TopicReply> paseAsTopicReplyList(ResultSet rs) throws SQLException{
+    public static ArrayList<TopicReplyHS> paseAsTopicReplyList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<TopicReply> list = null;
+        ArrayList<TopicReplyHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsTopicReply(rs));

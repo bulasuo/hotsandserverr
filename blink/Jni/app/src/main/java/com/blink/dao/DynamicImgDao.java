@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.DynamicImg;
+import com.blink.bean.DynamicImgHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class DynamicImgDao extends BaseDao {
 
-    public static int insert(DynamicImg dynamicImg, OnExceptionListener exceptionInterface) {
+    public static int insert(DynamicImgHS dynamicImg, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -61,8 +61,8 @@ public class DynamicImgDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<DynamicImg> queryByDynamicId(int dynamicId, OnExceptionListener exceptionInterface) {
-        ArrayList<DynamicImg> list = null;
+    public static ArrayList<DynamicImgHS> queryByDynamicId(int dynamicId, OnExceptionListener exceptionInterface) {
+        ArrayList<DynamicImgHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -86,19 +86,19 @@ public class DynamicImgDao extends BaseDao {
         return list;
     }
 
-    public static DynamicImg paseAsDynamicImg(ResultSet rs) throws SQLException {
+    public static DynamicImgHS paseAsDynamicImg(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final DynamicImg dynamicImg = new DynamicImg(rs.getInt("dImg_id"),
+        final DynamicImgHS dynamicImg = new DynamicImgHS(rs.getInt("dImg_id"),
                 rs.getString("dImg_img"),
                 rs.getInt("dnc_id"));
         return dynamicImg;
     }
 
-    public static ArrayList<DynamicImg> paseAsDynamicImgList(ResultSet rs) throws SQLException{
+    public static ArrayList<DynamicImgHS> paseAsDynamicImgList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<DynamicImg> list = null;
+        ArrayList<DynamicImgHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsDynamicImg(rs));

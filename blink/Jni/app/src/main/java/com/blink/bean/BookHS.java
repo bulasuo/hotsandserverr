@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the book database table.
  * 书表
  */
-public class Book implements Serializable {
+public class BookHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int bkId;
 	private String bkImg;
@@ -16,10 +16,10 @@ public class Book implements Serializable {
 	private String bkUnderstanding;
 	private int u_id;
 
-	public Book() {
+	public BookHS() {
 	}
 
-	public Book(int bkId, String bkImg, String bkName, String bkShare, String bkUnderstanding, int u_id) {
+	public BookHS(int bkId, String bkImg, String bkName, String bkShare, String bkUnderstanding, int u_id) {
 		this.bkId = bkId;
 		this.bkImg = bkImg;
 		this.bkName = bkName;
@@ -30,7 +30,7 @@ public class Book implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Book{" +
+		return "BookHS{" +
 				"bkId=" + bkId +
 				", bkImg='" + bkImg + '\'' +
 				", bkName='" + bkName + '\'' +

@@ -22,7 +22,7 @@ public class javaTest {
         /**
          * ArrayList 可以add null
          */
-        /*ArrayList<Dynamic> list = new ArrayList<>();
+        /*ArrayList<DynamicHS> list = new ArrayList<>();
         list.add(null);
         System.out.println("::"+list.size()+"-"+list.toString());*/
 

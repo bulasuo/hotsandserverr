@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the user_detail database table.
  * 用户详细表
  */
-public class UserDetail implements Serializable {
+public class UserDetailHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int udId;
@@ -33,14 +33,14 @@ public class UserDetail implements Serializable {
 	private int udWeight;
 	private int u_id;
 
-	public UserDetail() {
+	public UserDetailHS() {
 	}
 
-	public UserDetail(int udId, int udBlinkeds, int udBlinks, byte ud_bodyOdor, int udBreaks,
-					  String udDriving, String udEducation, int udHeight, String udHometown,
-					  byte udLiveparents, String udLocation, String ud_ownCar, byte ud_ownHouse,
-					  int ud_replyTopics, int udSalary, String udSettlement, byte udSnore,
-					  int udStates, int udTopics, byte udVirgin, int udWeight, int u_id) {
+	public UserDetailHS(int udId, int udBlinkeds, int udBlinks, byte ud_bodyOdor, int udBreaks,
+						String udDriving, String udEducation, int udHeight, String udHometown,
+						byte udLiveparents, String udLocation, String ud_ownCar, byte ud_ownHouse,
+						int ud_replyTopics, int udSalary, String udSettlement, byte udSnore,
+						int udStates, int udTopics, byte udVirgin, int udWeight, int u_id) {
 		this.udId = udId;
 		this.udBlinkeds = udBlinkeds;
 		this.udBlinks = udBlinks;

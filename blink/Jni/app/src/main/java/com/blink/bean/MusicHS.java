@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the music database table.
  * 音乐收藏表
  */
-public class Music implements Serializable {
+public class MusicHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int msId;
@@ -17,10 +17,10 @@ public class Music implements Serializable {
 	private String msUnderstanding;
 	private int u_id;
 
-	public Music() {
+	public MusicHS() {
 	}
 
-	public Music(int msId, String msImg, String msName, String msShare, String msUnderstanding, int u_id) {
+	public MusicHS(int msId, String msImg, String msName, String msShare, String msUnderstanding, int u_id) {
 		this.msId = msId;
 		this.msImg = msImg;
 		this.msName = msName;

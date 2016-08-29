@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the mv database table.
  * MV收藏表
  */
-public class MV implements Serializable {
+public class MVHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int mvId;
@@ -17,10 +17,10 @@ public class MV implements Serializable {
 	private String mvUnderstanding;
 	private int u_id;
 
-	public MV() {
+	public MVHS() {
 	}
 
-	public MV(int mvId, String mvImg, String mvName, String mvShare, String mvUnderstanding, int u_id) {
+	public MVHS(int mvId, String mvImg, String mvName, String mvShare, String mvUnderstanding, int u_id) {
 		this.mvId = mvId;
 		this.mvImg = mvImg;
 		this.mvName = mvName;

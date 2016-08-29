@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.Book;
+import com.blink.bean.BookHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class BookDao extends BaseDao {
 
-    public static int insert(Book book, OnExceptionListener exceptionInterface) {
+    public static int insert(BookHS book, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -64,7 +64,7 @@ public class BookDao extends BaseDao {
         return i;
     }
 
-    public static int update(Book book, OnExceptionListener exceptionInterface){
+    public static int update(BookHS book, OnExceptionListener exceptionInterface){
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -92,8 +92,8 @@ public class BookDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<Book> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<Book> list = null;
+    public static ArrayList<BookHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<BookHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -117,10 +117,10 @@ public class BookDao extends BaseDao {
         return list;
     }
 
-    public static Book paseAsBook(ResultSet rs) throws SQLException {
+    public static BookHS paseAsBook(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final Book book = new Book(rs.getInt("bk_id"),
+        final BookHS book = new BookHS(rs.getInt("bk_id"),
                 rs.getString("bk_img"),
                 rs.getString("bk_name"),
                 rs.getString("bk_share"),
@@ -129,10 +129,10 @@ public class BookDao extends BaseDao {
         return book;
     }
 
-    public static ArrayList<Book> paseAsBookList(ResultSet rs) throws SQLException{
+    public static ArrayList<BookHS> paseAsBookList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<Book> list = null;
+        ArrayList<BookHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsBook(rs));

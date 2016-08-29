@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.TopicImg;
+import com.blink.bean.TopicImgHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class TopicImgDao extends BaseDao {
 
-    public static int insert(TopicImg topicImg, OnExceptionListener exceptionInterface) {
+    public static int insert(TopicImgHS topicImg, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -61,8 +61,8 @@ public class TopicImgDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<TopicImg> queryByTopicId(int topicId, OnExceptionListener exceptionInterface) {
-        ArrayList<TopicImg> list = null;
+    public static ArrayList<TopicImgHS> queryByTopicId(int topicId, OnExceptionListener exceptionInterface) {
+        ArrayList<TopicImgHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -86,19 +86,19 @@ public class TopicImgDao extends BaseDao {
         return list;
     }
 
-    public static TopicImg paseAsTopicImg(ResultSet rs) throws SQLException {
+    public static TopicImgHS paseAsTopicImg(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final TopicImg topicImg = new TopicImg(rs.getInt("tImg_id"),
+        final TopicImgHS topicImg = new TopicImgHS(rs.getInt("tImg_id"),
                 rs.getString("tImg_img"),
                 rs.getInt("tc_id"));
         return topicImg;
     }
 
-    public static ArrayList<TopicImg> paseAsTopicImgList(ResultSet rs) throws SQLException{
+    public static ArrayList<TopicImgHS> paseAsTopicImgList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<TopicImg> list = null;
+        ArrayList<TopicImgHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsTopicImg(rs));

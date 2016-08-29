@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * The persistent class for the topicreply2 database table.
  * 话题二级回复表
  */
-public class TopicReply2 implements Serializable {
+public class TopicReply2HS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int tcR2_id;
@@ -19,10 +19,10 @@ public class TopicReply2 implements Serializable {
 	private int tcR_id;
 	
 
-	public TopicReply2() {
+	public TopicReply2HS() {
 	}
 
-	public TopicReply2(int tcR2_id, int tcR2_u_id, int tcR_u_id, String tcR2_content, Timestamp tcR2_date, int tcR_id) {
+	public TopicReply2HS(int tcR2_id, int tcR2_u_id, int tcR_u_id, String tcR2_content, Timestamp tcR2_date, int tcR_id) {
 		this.tcR2_id = tcR2_id;
 		this.tcR2_u_id = tcR2_u_id;
 		this.tcR_u_id = tcR_u_id;

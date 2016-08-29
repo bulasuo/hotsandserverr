@@ -7,19 +7,19 @@ import java.io.Serializable;
  * The persistent class for the attention database table.
  * 关注 动作表
  */
-public class Attention implements Serializable {
+public class AttentionHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
 	private int atnId;
 	private int atn_atnerId;
 	private int atn_atneredId;
-	private User atneredUser;
+	private UserHS atneredUser;
 
-	public Attention() {
+	public AttentionHS() {
 	}
 
-	public Attention(int atnId, int atn_atnerId, int atn_atneredId, User atneredUser) {
+	public AttentionHS(int atnId, int atn_atnerId, int atn_atneredId, UserHS atneredUser) {
 		this.atnId = atnId;
 		this.atn_atnerId = atn_atnerId;
 		this.atn_atneredId = atn_atneredId;
@@ -50,11 +50,11 @@ public class Attention implements Serializable {
 		this.atn_atneredId = atn_atneredId;
 	}
 
-	public User getAtneredUser() {
+	public UserHS getAtneredUser() {
 		return atneredUser;
 	}
 
-	public void setAtneredUser(User atneredUser) {
+	public void setAtneredUser(UserHS atneredUser) {
 		this.atneredUser = atneredUser;
 	}
 

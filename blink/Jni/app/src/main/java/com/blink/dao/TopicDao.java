@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.Topic;
+import com.blink.bean.TopicHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class TopicDao extends BaseDao {
 
-    public static int insert(Topic topic, OnExceptionListener exceptionInterface) {
+    public static int insert(TopicHS topic, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -64,8 +64,8 @@ public class TopicDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<Topic> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<Topic> list = null;
+    public static ArrayList<TopicHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<TopicHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -89,10 +89,10 @@ public class TopicDao extends BaseDao {
         return list;
     }
 
-    public static Topic paseAsTopic(ResultSet rs) throws SQLException {
+    public static TopicHS paseAsTopic(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final Topic topic = new Topic(rs.getInt("tc_id"),
+        final TopicHS topic = new TopicHS(rs.getInt("tc_id"),
                 rs.getTimestamp("tc_date"),
                 rs.getString("tc_describe"),
                 rs.getString("tc_name"),
@@ -101,10 +101,10 @@ public class TopicDao extends BaseDao {
         return topic;
     }
 
-    public static ArrayList<Topic> paseAsTopicList(ResultSet rs) throws SQLException{
+    public static ArrayList<TopicHS> paseAsTopicList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<Topic> list = null;
+        ArrayList<TopicHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsTopic(rs));

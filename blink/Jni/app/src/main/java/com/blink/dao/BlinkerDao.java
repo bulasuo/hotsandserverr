@@ -1,7 +1,7 @@
 package com.blink.dao;
 
-import com.blink.bean.Blinker;
-import com.blink.bean.User;
+import com.blink.bean.BlinkerHS;
+import com.blink.bean.UserHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class BlinkerDao extends BaseDao {
 
 
-    public static int insert(Blinker blinker, OnExceptionListener exceptionInterface) {
+    public static int insert(BlinkerHS blinker, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -77,8 +77,8 @@ public class BlinkerDao extends BaseDao {
      * @param exceptionInterface
      * @return
      */
-    public static ArrayList<User> queryByBlinkeredId(int bk_blinkeredId, OnExceptionListener exceptionInterface) {
-        ArrayList<User> list = null;
+    public static ArrayList<UserHS> queryByBlinkeredId(int bk_blinkeredId, OnExceptionListener exceptionInterface) {
+        ArrayList<UserHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();

@@ -8,20 +8,20 @@ import java.sql.Timestamp;
  * The persistent class for the blinkers database table.
  * 眨眼关系映射表
  */
-public class Blinker implements Serializable {
+public class BlinkerHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	
 	private int bkId;
 	private int bk_blinkeredId;//query时的userId,需要验证userId合法性
 	private int bk_blinkerId;//insert时的userId,需要验证userId合法性
-	private User blinkUser;
+	private UserHS blinkUser;
 	private Timestamp bk_createDate;
 
-	public Blinker() {
+	public BlinkerHS() {
 	}
 
-	public Blinker(int bkId, int bk_blinkeredId, int bk_blinkerId, User blinkUser, Timestamp bk_createDate) {
+	public BlinkerHS(int bkId, int bk_blinkeredId, int bk_blinkerId, UserHS blinkUser, Timestamp bk_createDate) {
 		this.bkId = bkId;
 		this.bk_blinkeredId = bk_blinkeredId;
 		this.bk_blinkerId = bk_blinkerId;
@@ -53,11 +53,11 @@ public class Blinker implements Serializable {
 		this.bk_blinkerId = bk_blinkerId;
 	}
 
-	public User getBlinkUser() {
+	public UserHS getBlinkUser() {
 		return blinkUser;
 	}
 
-	public void setBlinkUser(User blinkUser) {
+	public void setBlinkUser(UserHS blinkUser) {
 		this.blinkUser = blinkUser;
 	}
 

@@ -1,5 +1,11 @@
 package com.blink.test;
 
+import com.blink.bean.DynamicImgHS;
+import com.blink.dao.DynamicImgDao;
+import com.blink.exception.OnExceptionListener;
+
+import java.sql.SQLException;
+
 /**
  * Created by abu on 2016/8/29 15:46.
  */
@@ -12,30 +18,30 @@ public class DynamicImgDaoTest {
         /**
          * query
          */
-        /*for(DynamicImg dynamicImg: DynamicImgDao.queryByDynamicId(3, new OnExceptionListener() {
+        for(DynamicImgHS dynamicImg: DynamicImgDao.queryByDynamicId(3, new OnExceptionListener() {
             @Override
             public void onSQLException(SQLException e) {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
         }))
-                System.out.println(dynamicImg.toString());*/
+                System.out.println(dynamicImg.toString());
 
         /**
          * delete
          */
-        /*System.out.println("result:"+ DynamicImgDao.deleteById(2, new OnExceptionListener() {
+        System.out.println("result:"+ DynamicImgDao.deleteById(2, new OnExceptionListener() {
             @Override
             public void onSQLException(SQLException e) {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
-        }));*/
+        }));
 
         /**
          * insert
          */
-       /* DynamicImg dynamicImg = new DynamicImg();
+        DynamicImgHS dynamicImg = new DynamicImgHS();
         dynamicImg.setDnc_id(3);
         dynamicImg.setDImg_img("www2");
         System.out.println("result:"+ DynamicImgDao.insert(dynamicImg, new OnExceptionListener() {
@@ -44,7 +50,7 @@ public class DynamicImgDaoTest {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
-        }));*/
+        }));
 
         System.out.println("end\ntime consuming:"+(System.currentTimeMillis()-startTime));
     }

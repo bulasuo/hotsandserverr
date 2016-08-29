@@ -7,7 +7,7 @@ import java.io.Serializable;
  * The persistent class for the userimg database table.
  * 用户照片墙配图表
  */
-public class UserImg implements Serializable {
+public class UserImgHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int uImg_id;
@@ -15,10 +15,10 @@ public class UserImg implements Serializable {
 	private String uImg_img;
 	private int u_id;
 
-	public UserImg() {
+	public UserImgHS() {
 	}
 
-	public UserImg(int uImg_id, String uImg_img, int u_id) {
+	public UserImgHS(int uImg_id, String uImg_img, int u_id) {
 		this.uImg_id = uImg_id;
 		this.uImg_img = uImg_img;
 		this.u_id = u_id;

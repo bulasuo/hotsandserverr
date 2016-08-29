@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.Dynamic;
+import com.blink.bean.DynamicHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class DynamicDao extends BaseDao{
 
-    public static int insert(Dynamic dynamic, OnExceptionListener exceptionInterface) {
+    public static int insert(DynamicHS dynamic, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -62,7 +62,7 @@ public class DynamicDao extends BaseDao{
         return i;
     }
 
-    public static int update(Dynamic dynamic, OnExceptionListener exceptionInterface){
+    public static int update(DynamicHS dynamic, OnExceptionListener exceptionInterface){
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -86,8 +86,8 @@ public class DynamicDao extends BaseDao{
         return i;
     }
 
-    public static ArrayList<Dynamic> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<Dynamic> list = null;
+    public static ArrayList<DynamicHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<DynamicHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -111,20 +111,20 @@ public class DynamicDao extends BaseDao{
         return list;
     }
 
-    public static Dynamic paseAsDynamic(ResultSet rs) throws SQLException {
+    public static DynamicHS paseAsDynamic(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final Dynamic dynamic = new Dynamic(rs.getInt("dnc_id"),
+        final DynamicHS dynamic = new DynamicHS(rs.getInt("dnc_id"),
                 rs.getTimestamp("dnc_date"),
                 rs.getString("dnc_describe"),
                 rs.getInt("u_id"));
         return dynamic;
     }
 
-    public static ArrayList<Dynamic> paseAsDynamicList(ResultSet rs) throws SQLException{
+    public static ArrayList<DynamicHS> paseAsDynamicList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<Dynamic> list = null;
+        ArrayList<DynamicHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsDynamic(rs));

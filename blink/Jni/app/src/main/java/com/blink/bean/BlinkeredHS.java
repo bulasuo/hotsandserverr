@@ -7,19 +7,19 @@ import java.io.Serializable;
  * The persistent class for the blinkered database table.
  * 暂时未用到
  */
-public class Blinkered implements Serializable {
+public class BlinkeredHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
 	private int bkedId;
 	private int bked_blinkerId;
 	private int bked_blinkeredId;
-	private User blinkedUser;
+	private UserHS blinkedUser;
 
-	public Blinkered() {
+	public BlinkeredHS() {
 	}
 
-	public Blinkered(int bkedId, int bked_blinkerId, int bked_blinkeredId, User blinkedUser) {
+	public BlinkeredHS(int bkedId, int bked_blinkerId, int bked_blinkeredId, UserHS blinkedUser) {
 		this.bkedId = bkedId;
 		this.bked_blinkerId = bked_blinkerId;
 		this.bked_blinkeredId = bked_blinkeredId;
@@ -50,11 +50,11 @@ public class Blinkered implements Serializable {
 		this.bked_blinkeredId = bked_blinkeredId;
 	}
 
-	public User getBlinkedUser() {
+	public UserHS getBlinkedUser() {
 		return blinkedUser;
 	}
 
-	public void setBlinkedUser(User blinkedUser) {
+	public void setBlinkedUser(UserHS blinkedUser) {
 		this.blinkedUser = blinkedUser;
 	}
 

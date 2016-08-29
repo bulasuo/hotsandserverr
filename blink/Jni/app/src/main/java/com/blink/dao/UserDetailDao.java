@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.UserDetail;
+import com.blink.bean.UserDetailHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class UserDetailDao extends BaseDao {
 
-    public static int insert(UserDetail userDetail, OnExceptionListener exceptionInterface) {
+    public static int insert(UserDetailHS userDetail, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -105,7 +105,7 @@ public class UserDetailDao extends BaseDao {
         return i;
     }
 
-    public static int updateByUserId(UserDetail userDetail, OnExceptionListener exceptionInterface){
+    public static int updateByUserId(UserDetailHS userDetail, OnExceptionListener exceptionInterface){
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -152,8 +152,8 @@ public class UserDetailDao extends BaseDao {
         return i;
     }
 
-    public static UserDetail queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        UserDetail userDetail = null;
+    public static UserDetailHS queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        UserDetailHS userDetail = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -177,10 +177,10 @@ public class UserDetailDao extends BaseDao {
         return userDetail;
     }
 
-    public static UserDetail paseAsUserDetail(ResultSet rs) throws SQLException {
+    public static UserDetailHS paseAsUserDetail(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final UserDetail userDetail = new UserDetail(
+        final UserDetailHS userDetail = new UserDetailHS(
                 rs.getInt("ud_id"),
                 rs.getInt("ud_blinkeds"),
                 rs.getInt("ud_blinks"),

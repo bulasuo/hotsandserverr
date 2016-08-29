@@ -1,6 +1,6 @@
 package com.blink.dao;
 
-import com.blink.bean.Movie;
+import com.blink.bean.MovieHS;
 import com.blink.db.DbConn;
 import com.blink.exception.OnExceptionListener;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 public class MovieDao extends BaseDao {
 
-    public static int insert(Movie movie, OnExceptionListener exceptionInterface) {
+    public static int insert(MovieHS movie, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -64,8 +64,8 @@ public class MovieDao extends BaseDao {
         return i;
     }
 
-    public static ArrayList<Movie> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
-        ArrayList<Movie> list = null;
+    public static ArrayList<MovieHS> queryByUserId(int userId, OnExceptionListener exceptionInterface) {
+        ArrayList<MovieHS> list = null;
         ResultSet rs = null;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
@@ -89,10 +89,10 @@ public class MovieDao extends BaseDao {
         return list;
     }
 
-    public static Movie paseAsMovie(ResultSet rs) throws SQLException {
+    public static MovieHS paseAsMovie(ResultSet rs) throws SQLException {
         if(rs == null)
             return null;
-        final Movie movie = new Movie(rs.getInt("mo_id"),
+        final MovieHS movie = new MovieHS(rs.getInt("mo_id"),
                 rs.getString("mo_img"),
                 rs.getString("mo_name"),
                 rs.getString("mo_share"),
@@ -101,10 +101,10 @@ public class MovieDao extends BaseDao {
         return movie;
     }
 
-    public static ArrayList<Movie> paseAsMovieList(ResultSet rs) throws SQLException{
+    public static ArrayList<MovieHS> paseAsMovieList(ResultSet rs) throws SQLException{
         if(rs == null)
             return null;
-        ArrayList<Movie> list = null;
+        ArrayList<MovieHS> list = null;
         if(rs.next()){
             list = new ArrayList<>();
             list.add(paseAsMovie(rs));

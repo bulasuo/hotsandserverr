@@ -9,7 +9,7 @@ import java.util.List;
  * The persistent class for the user database table.
  * 用户表
  */
-public class User implements Serializable {
+public class UserHS implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private int uId;
@@ -28,25 +28,25 @@ public class User implements Serializable {
 	private String u_sealUpReason;
 	private byte uSex;
 	private String uSign;
-	private List<Attention> attentions;//我的关注list
-	private List<Blinkered> blinkereds;//被我眨眼者list
-	private List<Blinker> blinkers;//对我眨眼者list
-	private List<Book> books;
-	private List<Dynamic> dynamics;
-	private List<Movie> movies;
-	private List<Music> musics;
-	private List<MV> mvs;
-	private List<Topic> topics;//我的话题
-	private List<TopicCollect> topiccollects;//我的话题收藏
-	private List<TopicReply> topicreplies;//我的一级回复记录list
-	private List<TopicReply2> topicreply2s;//我的二级回复记录list
-	private List<UserDetail> userDetails;
-	private List<UserImg> userimgs;
+	private List<AttentionHS> attentions;//我的关注list
+	private List<BlinkeredHS> blinkereds;//被我眨眼者list
+	private List<BlinkerHS> blinkers;//对我眨眼者list
+	private List<BookHS> books;
+	private List<DynamicHS> dynamics;
+	private List<MovieHS> movies;
+	private List<MusicHS> musics;
+	private List<MVHS> mvs;
+	private List<TopicHS> topics;//我的话题
+	private List<TopicCollectHS> topiccollects;//我的话题收藏
+	private List<TopicReplyHS> topicreplies;//我的一级回复记录list
+	private List<TopicReply2HS> topicreply2s;//我的二级回复记录list
+	private List<UserDetailHS> userDetails;
+	private List<UserImgHS> userimgs;
 	
-	public User() {
+	public UserHS() {
 	}
 
-	public User(int uId, byte uAffective, Timestamp uBirth, int u_blinkerId
+	public UserHS(int uId, byte uAffective, Timestamp uBirth, int u_blinkerId
 			, Timestamp u_createDate, String u_headImg, double uLat, double uLng
 			, String u_nickName, String uOccupation, String uPhone
 			, byte u_sealUp, String u_sealUpReason, byte uSex, String uSign) {
@@ -69,7 +69,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User{" +
+		return "UserHS{" +
 				"uId=" + uId +
 				", uAffective=" + uAffective +
 				", uBirth=" + uBirth +
@@ -231,115 +231,115 @@ public class User implements Serializable {
 		this.uSign = uSign;
 	}
 
-	public List<Attention> getAttentions() {
+	public List<AttentionHS> getAttentions() {
 		return this.attentions;
 	}
 
-	public void setAttentions(List<Attention> attentions) {
+	public void setAttentions(List<AttentionHS> attentions) {
 		this.attentions = attentions;
 	}
 
-	public List<Blinkered> getBlinkereds() {
+	public List<BlinkeredHS> getBlinkereds() {
 		return this.blinkereds;
 	}
 
-	public void setBlinkereds(List<Blinkered> blinkereds) {
+	public void setBlinkereds(List<BlinkeredHS> blinkereds) {
 		this.blinkereds = blinkereds;
 	}
 
-	public List<Blinker> getBlinkers() {
+	public List<BlinkerHS> getBlinkers() {
 		return this.blinkers;
 	}
 
-	public void setBlinkers(List<Blinker> blinkers) {
+	public void setBlinkers(List<BlinkerHS> blinkers) {
 		this.blinkers = blinkers;
 	}
 
-	public List<Book> getBooks() {
+	public List<BookHS> getBooks() {
 		return this.books;
 	}
 
-	public void setBooks(List<Book> books) {
+	public void setBooks(List<BookHS> books) {
 		this.books = books;
 	}
 
-	public List<Dynamic> getDynamics() {
+	public List<DynamicHS> getDynamics() {
 		return this.dynamics;
 	}
 
-	public void setDynamics(List<Dynamic> dynamics) {
+	public void setDynamics(List<DynamicHS> dynamics) {
 		this.dynamics = dynamics;
 	}
 
-	public List<Movie> getMovies() {
+	public List<MovieHS> getMovies() {
 		return this.movies;
 	}
 
-	public void setMovies(List<Movie> movies) {
+	public void setMovies(List<MovieHS> movies) {
 		this.movies = movies;
 	}
 
-	public List<Music> getMusics() {
+	public List<MusicHS> getMusics() {
 		return this.musics;
 	}
 
-	public void setMusics(List<Music> musics) {
+	public void setMusics(List<MusicHS> musics) {
 		this.musics = musics;
 	}
 
-	public List<MV> getMvs() {
+	public List<MVHS> getMvs() {
 		return this.mvs;
 	}
 
-	public void setMvs(List<MV> mvs) {
+	public void setMvs(List<MVHS> mvs) {
 		this.mvs = mvs;
 	}
 
-	public List<Topic> getTopics() {
+	public List<TopicHS> getTopics() {
 		return this.topics;
 	}
 
-	public void setTopics(List<Topic> topics) {
+	public void setTopics(List<TopicHS> topics) {
 		this.topics = topics;
 	}
 
-	public List<TopicCollect> getTopiccollects() {
+	public List<TopicCollectHS> getTopiccollects() {
 		return this.topiccollects;
 	}
 
-	public void setTopiccollects(List<TopicCollect> topiccollects) {
+	public void setTopiccollects(List<TopicCollectHS> topiccollects) {
 		this.topiccollects = topiccollects;
 	}
 
-	public List<TopicReply> getTopicreplies() {
+	public List<TopicReplyHS> getTopicreplies() {
 		return this.topicreplies;
 	}
 
-	public void setTopicreplies(List<TopicReply> topicreplies) {
+	public void setTopicreplies(List<TopicReplyHS> topicreplies) {
 		this.topicreplies = topicreplies;
 	}
 
-	public List<TopicReply2> getTopicreply2s() {
+	public List<TopicReply2HS> getTopicreply2s() {
 		return this.topicreply2s;
 	}
 
-	public void setTopicreply2s(List<TopicReply2> topicreply2s) {
+	public void setTopicreply2s(List<TopicReply2HS> topicreply2s) {
 		this.topicreply2s = topicreply2s;
 	}
 
-	public List<UserDetail> getUserDetails() {
+	public List<UserDetailHS> getUserDetails() {
 		return this.userDetails;
 	}
 
-	public void setUserDetails(List<UserDetail> userDetails) {
+	public void setUserDetails(List<UserDetailHS> userDetails) {
 		this.userDetails = userDetails;
 	}
 
-	public List<UserImg> getUserimgs() {
+	public List<UserImgHS> getUserimgs() {
 		return this.userimgs;
 	}
 
-	public void setUserimgs(List<UserImg> userimgs) {
+	public void setUserimgs(List<UserImgHS> userimgs) {
 		this.userimgs = userimgs;
 	}
 
