@@ -23,6 +23,16 @@ public class TopicImgHS implements Serializable {
 		this.tc_id = tc_id;
 	}
 
+
+	@Override
+	public String toString() {
+		return "TopicImgHS{" +
+				"tImg_id=" + tImg_id +
+				", tImg_img='" + tImg_img + '\'' +
+				", tc_id=" + tc_id +
+				'}';
+	}
+
 	public int getTImg_id() {
 		return this.tImg_id;
 	}

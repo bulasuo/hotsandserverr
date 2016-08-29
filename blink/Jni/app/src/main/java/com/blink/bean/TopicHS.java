@@ -34,6 +34,21 @@ public class TopicHS implements Serializable {
 		this.u_id = u_id;
 	}
 
+	@Override
+	public String toString() {
+		return "TopicHS{" +
+				"tcId=" + tcId +
+				", tcDate=" + tcDate +
+				", tcDescribe='" + tcDescribe + '\'' +
+				", tcName='" + tcName + '\'' +
+				", tcType='" + tcType + '\'' +
+				", u_id=" + u_id +
+				", topiccollects=" + topiccollects +
+				", topicimgs=" + topicimgs +
+				", topicreplies=" + topicreplies +
+				'}';
+	}
+
 	public int getTcId() {
 		return this.tcId;
 	}

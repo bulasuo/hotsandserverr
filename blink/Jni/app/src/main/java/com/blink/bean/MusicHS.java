@@ -20,6 +20,18 @@ public class MusicHS implements Serializable {
 	public MusicHS() {
 	}
 
+	@Override
+	public String toString() {
+		return "MusicHS{" +
+				"msId=" + msId +
+				", msImg='" + msImg + '\'' +
+				", msName='" + msName + '\'' +
+				", msShare='" + msShare + '\'' +
+				", msUnderstanding='" + msUnderstanding + '\'' +
+				", u_id=" + u_id +
+				'}';
+	}
+
 	public MusicHS(int msId, String msImg, String msName, String msShare, String msUnderstanding, int u_id) {
 		this.msId = msId;
 		this.msImg = msImg;

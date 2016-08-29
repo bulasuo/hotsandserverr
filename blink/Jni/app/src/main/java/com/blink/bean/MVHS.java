@@ -29,6 +29,18 @@ public class MVHS implements Serializable {
 		this.u_id = u_id;
 	}
 
+	@Override
+	public String toString() {
+		return "MVHS{" +
+				"mvId=" + mvId +
+				", mvImg='" + mvImg + '\'' +
+				", mvName='" + mvName + '\'' +
+				", mvShare='" + mvShare + '\'' +
+				", mvUnderstanding='" + mvUnderstanding + '\'' +
+				", u_id=" + u_id +
+				'}';
+	}
+
 	public int getMvId() {
 		return this.mvId;
 	}

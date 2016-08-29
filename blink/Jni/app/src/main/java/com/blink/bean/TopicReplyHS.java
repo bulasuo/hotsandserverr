@@ -30,6 +30,18 @@ public class TopicReplyHS implements Serializable {
 		this.u_id = u_id;
 	}
 
+	@Override
+	public String toString() {
+		return "TopicReplyHS{" +
+				"tcR_id=" + tcR_id +
+				", tcR_content='" + tcR_content + '\'' +
+				", tcR_date=" + tcR_date +
+				", tc_id=" + tc_id +
+				", u_id=" + u_id +
+				", topicreply2s=" + topicreply2s +
+				'}';
+	}
+
 	public int getTcR_id() {
 		return this.tcR_id;
 	}
