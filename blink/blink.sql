@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-08-29 17:33:39
+Date: 2016-08-30 15:41:41
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -265,7 +265,6 @@ CREATE TABLE `topicreply2` (
 -- Records of topicreply2
 -- ----------------------------
 INSERT INTO `topicreply2` VALUES ('1', '1', '31', '30', '不,这话题不low啊', '2016-09-15 20:20:03');
-INSERT INTO `topicreply2` VALUES ('2', '1', '31', '30', '不,这话题不low啊', '2016-09-15 20:20:03');
 INSERT INTO `topicreply2` VALUES ('3', '1', '31', '30', '不,这话题不low啊', '2016-09-15 20:20:03');
 INSERT INTO `topicreply2` VALUES ('4', '1', '31', '30', '不,这话题不low啊', '2016-09-15 20:20:03');
 
@@ -313,11 +312,15 @@ CREATE TABLE `userimg` (
   PRIMARY KEY (`uImg_id`),
   KEY `userImg_user` (`u_id`),
   CONSTRAINT `userImg_user` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of userimg
 -- ----------------------------
+INSERT INTO `userimg` VALUES ('1', '30', 'www.ssssss');
+INSERT INTO `userimg` VALUES ('3', '30', 'www.ssssss');
+INSERT INTO `userimg` VALUES ('4', '30', 'www.ssssss');
+INSERT INTO `userimg` VALUES ('5', '30', 'www.ssssss');
 
 -- ----------------------------
 -- Table structure for `user_detail`
@@ -330,7 +333,7 @@ CREATE TABLE `user_detail` (
   `ud_weight` int(10) unsigned DEFAULT NULL COMMENT '体重(kg)',
   `ud_salary` int(10) unsigned DEFAULT NULL COMMENT '月薪(元)',
   `ud_settlement` varchar(100) DEFAULT NULL COMMENT '未来定居地',
-  `ud_liveparents` tinyint(1) unsigned DEFAULT NULL COMMENT '婚后是父母同住  0:否 1:是',
+  `ud_liveparents` tinyint(1) unsigned DEFAULT '0' COMMENT '婚后是父母同住  0:否 1:是',
   `ud_education` varchar(50) DEFAULT NULL COMMENT '学历	',
   `ud_hometown` varchar(100) DEFAULT NULL COMMENT '家乡',
   `ud_location` varchar(100) DEFAULT NULL COMMENT '所在地',
@@ -349,8 +352,10 @@ CREATE TABLE `user_detail` (
   PRIMARY KEY (`ud_id`,`u_id`),
   UNIQUE KEY `detail_user` (`u_id`) USING BTREE,
   CONSTRAINT `detail_user` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_detail
 -- ----------------------------
+INSERT INTO `user_detail` VALUES ('9', '30', '182', '71', '5000', '生无可恋', '0', '学士', '索马里', '南京', '0', '0', 'c1', '0', '1', '凯迪拉克', '10', '10', '10', '10', '10', '1');
+INSERT INTO `user_detail` VALUES ('13', '31', '182', '71', '5000', '北海道', '0', '学士', '索马里', '南京', '0', '0', 'c1', '0', '1', '凯迪拉克', '10', '10', '10', '10', '10', '1');
