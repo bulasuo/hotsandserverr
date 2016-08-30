@@ -8,14 +8,6 @@ public class TopicDaoTest {
     public static void main(String[] args) {
         final long startTime = System.currentTimeMillis();
         System.out.println("start");
-        /*System.out.println("result:"+ BookDao.insert(book, new OnExceptionListener() {
-            @Override
-            public void onSQLException(SQLException e) {
-                super.onSQLException(e);
-                System.out.println("Exception:" + e.toString());
-            }
-        }));*/
-
 
         /**
          * query

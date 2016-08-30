@@ -49,7 +49,7 @@ public class UserDetailDao extends BaseDao {
                 ps.setInt(20, userDetail.getUdBlinkeds());
                 ps.setInt(21, userDetail.getUdBreaks());
                 i = ps.executeUpdate();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 exceptionInterface.onSQLException(e);
             } catch (Exception e) {
                 exceptionInterface.onException(e);
@@ -65,17 +65,17 @@ public class UserDetailDao extends BaseDao {
         int i = 0;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
-        if(conn!=null){
+        if (conn != null) {
             try {
                 String sql = " delete from user_detail where u_id=? ";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, userId);
                 i = ps.executeUpdate();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 exceptionInterface.onSQLException(e);
             } catch (Exception e) {
                 exceptionInterface.onException(e);
-            }finally{
+            } finally {
                 DbConn.close(ps);
                 DbConn.close(conn);
             }
@@ -87,17 +87,17 @@ public class UserDetailDao extends BaseDao {
         int i = 0;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
-        if(conn!=null){
+        if (conn != null) {
             try {
                 String sql = " delete from user_detail where ud_id=? ";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, userDetailId);
                 i = ps.executeUpdate();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 exceptionInterface.onSQLException(e);
             } catch (Exception e) {
                 exceptionInterface.onException(e);
-            }finally{
+            } finally {
                 DbConn.close(ps);
                 DbConn.close(conn);
             }
@@ -105,11 +105,11 @@ public class UserDetailDao extends BaseDao {
         return i;
     }
 
-    public static int updateByUserId(UserDetailHS userDetail, OnExceptionListener exceptionInterface){
+    public static int updateByUserId(UserDetailHS userDetail, OnExceptionListener exceptionInterface) {
         int i = -1;
         PreparedStatement ps = null;
         Connection conn = DbConn.getConnSql();
-        if(conn!=null){
+        if (conn != null) {
             try {
                 String sql = " update user_detail set ud_height=?, ud_weight=?," +
                         "ud_salary=?, ud_settlement=?, ud_liveparents=?, ud_education=?," +
@@ -139,12 +139,12 @@ public class UserDetailDao extends BaseDao {
                 ps.setInt(19, userDetail.getUdBlinkeds());
                 ps.setInt(20, userDetail.getUdBreaks());
                 ps.setInt(21, userDetail.getU_id());
-                i=ps.executeUpdate();
-            } catch (SQLException e){
+                i = ps.executeUpdate();
+            } catch (SQLException e) {
                 exceptionInterface.onSQLException(e);
             } catch (Exception e) {
                 exceptionInterface.onException(e);
-            }finally{
+            } finally {
                 DbConn.close(ps);
                 DbConn.close(conn);
             }
@@ -163,8 +163,9 @@ public class UserDetailDao extends BaseDao {
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, userId);
                 rs = ps.executeQuery();
-                userDetail = paseAsUserDetail(rs);
-            } catch (SQLException e){
+                if(rs.next())
+                    userDetail = paseAsUserDetail(rs);
+            } catch (SQLException e) {
                 exceptionInterface.onSQLException(e);
             } catch (Exception e) {
                 exceptionInterface.onException(e);
@@ -178,7 +179,7 @@ public class UserDetailDao extends BaseDao {
     }
 
     public static UserDetailHS paseAsUserDetail(ResultSet rs) throws SQLException {
-        if(rs == null)
+        if (rs == null)
             return null;
         final UserDetailHS userDetail = new UserDetailHS(
                 rs.getInt("ud_id"),

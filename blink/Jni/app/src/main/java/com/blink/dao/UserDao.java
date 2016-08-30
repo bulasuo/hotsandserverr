@@ -153,7 +153,8 @@ public class UserDao extends BaseDao{
                 ps.setString(1, phone);
                 ps.setString(2, password);
                 rs = ps.executeQuery();
-                user = paseAsUser(rs);
+                if(rs.next())
+                    user = paseAsUser(rs);
             } catch (SQLException e){
                 exceptionInterface.onSQLException(e);
             } catch (Exception e) {

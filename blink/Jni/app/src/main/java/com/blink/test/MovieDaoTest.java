@@ -8,15 +8,10 @@ public class MovieDaoTest {
     public static void main(String[] args) {
         final long startTime = System.currentTimeMillis();
         System.out.println("start");
-        /*System.out.println("result:"+ BookDao.insert(book, new OnExceptionListener() {
-            @Override
-            public void onSQLException(SQLException e) {
-                super.onSQLException(e);
-                System.out.println("Exception:" + e.toString());
-            }
-        }));*/
 
-
+        /**
+         * query
+         */
         /*for(MovieHS movieHS:MovieDao.queryByUserId(30, new OnExceptionListener() {
             @Override
             public void onSQLException(SQLException e) {

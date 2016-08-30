@@ -1,11 +1,9 @@
 package com.blink.test;
 
-import com.blink.bean.UserHS;
 import com.blink.dao.UserDao;
 import com.blink.exception.OnExceptionListener;
 
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 /**
  * Created by abu on 2016/8/29 15:14.
@@ -17,7 +15,7 @@ public class UserDaoTest {
         System.out.println("start");
 
 
-        UserHS user = new UserHS();
+        /*UserHS user = new UserHS();
         user.setUId(30);
         user.setUPhone("15062239789");
         user.setUPassword("111111");
@@ -38,7 +36,7 @@ public class UserDaoTest {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
-        }));
+        }));*/
         /**
          * user query
          */
@@ -52,7 +50,7 @@ public class UserDaoTest {
         /**
          * user insert
          */
-        UserHS user1 = new UserHS();
+       /* UserHS user1 = new UserHS();
         user1.setUPhone("15062239789");
         user1.setUPassword("111111");
         user1.setU_nickName("苏拉底");
@@ -72,7 +70,7 @@ public class UserDaoTest {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
-        })+(byte)0x1f);
+        })+(byte)0x1f);*/
 
 
         System.out.println("end\ntime consuming:"+(System.currentTimeMillis()-startTime));

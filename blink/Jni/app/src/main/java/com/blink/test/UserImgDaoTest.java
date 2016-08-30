@@ -1,9 +1,9 @@
 package com.blink.test;
 
 /**
- * Created by abu on 2016/8/29 17:19.
+ * Created by abu on 2016/8/30 09:58.
  */
-public class TopicReplyDaoTest {
+public class UserImgDaoTest {
 
     public static void main(String[] args) {
         final long startTime = System.currentTimeMillis();
@@ -12,19 +12,19 @@ public class TopicReplyDaoTest {
         /**
          * query
          */
-       /* for(TopicReplyHS topicReplyHS: TopicReplyDao.queryByTopicId(4, new OnExceptionListener() {
+        /*for(UserImgHS userImgHS: UserImgDao.queryByUserId(30, new OnExceptionListener() {
             @Override
             public void onSQLException(SQLException e) {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
         }))
-                System.out.println(topicReplyHS.toString());*/
+                System.out.println(userImgHS.toString());*/
 
         /**
          * delete
          */
-        /*System.out.println("result:"+ TopicReplyDao.deleteById(2, new OnExceptionListener() {
+        /*System.out.println("result:"+ UserImgDao.deleteById(2, new OnExceptionListener() {
             @Override
             public void onSQLException(SQLException e) {
                 super.onSQLException(e);
@@ -35,13 +35,11 @@ public class TopicReplyDaoTest {
         /**
          * insert
          */
-        /*TopicReplyHS topicReplyHS = new TopicReplyHS();
-        topicReplyHS.setTc_id(4);
-        topicReplyHS.setTcR_content("这个话题好low");
-        topicReplyHS.setTcR_date(Timestamp.valueOf("2016-9-15 20:20:3"));
-        topicReplyHS.setU_id(30);
+        /*UserImgHS userImgHS = new UserImgHS();
+        userImgHS.setU_id(30);
+        userImgHS.setUImg_img("www.ssssss");
         for(int i=0;i<4;i++)
-            System.out.println("result:"+ TopicReplyDao.insert(topicReplyHS, new OnExceptionListener() {
+            System.out.println("result:"+ UserImgDao.insert(userImgHS, new OnExceptionListener() {
                 @Override
                 public void onSQLException(SQLException e) {
                     super.onSQLException(e);

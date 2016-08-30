@@ -65,6 +65,34 @@ public class UserDetailHS implements Serializable {
 		this.u_id = u_id;
 	}
 
+	@Override
+	public String toString() {
+		return "UserDetailHS{" +
+				"udId=" + udId +
+				", udBlinkeds=" + udBlinkeds +
+				", udBlinks=" + udBlinks +
+				", ud_bodyOdor=" + ud_bodyOdor +
+				", udBreaks=" + udBreaks +
+				", udDriving='" + udDriving + '\'' +
+				", udEducation='" + udEducation + '\'' +
+				", udHeight=" + udHeight +
+				", udHometown='" + udHometown + '\'' +
+				", udLiveparents=" + udLiveparents +
+				", udLocation='" + udLocation + '\'' +
+				", ud_ownCar='" + ud_ownCar + '\'' +
+				", ud_ownHouse=" + ud_ownHouse +
+				", ud_replyTopics=" + ud_replyTopics +
+				", udSalary=" + udSalary +
+				", udSettlement='" + udSettlement + '\'' +
+				", udSnore=" + udSnore +
+				", udStates=" + udStates +
+				", udTopics=" + udTopics +
+				", udVirgin=" + udVirgin +
+				", udWeight=" + udWeight +
+				", u_id=" + u_id +
+				'}';
+	}
+
 	public int getUdId() {
 		return this.udId;
 	}

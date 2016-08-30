@@ -24,6 +24,15 @@ public class UserImgHS implements Serializable {
 		this.u_id = u_id;
 	}
 
+	@Override
+	public String toString() {
+		return "UserImgHS{" +
+				"uImg_id=" + uImg_id +
+				", uImg_img='" + uImg_img + '\'' +
+				", u_id=" + u_id +
+				'}';
+	}
+
 	public int getUImg_id() {
 		return this.uImg_id;
 	}
