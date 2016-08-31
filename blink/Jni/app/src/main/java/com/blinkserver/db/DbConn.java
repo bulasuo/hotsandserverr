@@ -1,35 +1,24 @@
 package com.blinkserver.db;
 
+import com.blinkserver.Config;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DbConn {
 
 	public static Connection getConnSql(){
-		Properties pro = new Properties();
-		String driver = null;
-		String url = null;
-		String username = null;
-		String password = null;
 		Connection conn = null;
 		try {
-			/*InputStream is = DbConn.class.getClassLoader()
-					.getResourceAsStream("DB.properties");
-			pro.load(is);
-			driver = pro.getProperty("driver");
-			url = pro.getProperty("url");
-			username = pro.getProperty("username");
-			password = pro.getProperty("password");
-			Class.forName(driver);
-			conn = DriverManager.getConnection(url, username,
-					password);*/
-			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blink?user=root&password=bulasuo@0220&useUnicode=true&characterEncoding=utf-8");
-//			conn = DriverManager.getConnection("jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_shiyan10","jwwxxonwyy","kmi1ihw5my11ki53x1y30yxk2myl2wl1w5m4kzwl");
+			Class.forName(Config.MYSQL_DRIVER);
+			conn = DriverManager.getConnection(Config.MYSQL_URL, Config.MYSQL_USER_NAME,
+					Config.MYSQL_PASSWORD);
+//			Class.forName("com.mysql.jdbc.Driver");
+//			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blink?user=root&password=bulasuo@0220&useUnicode=true&characterEncoding=utf-8");
+////			conn = DriverManager.getConnection("jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_shiyan10","jwwxxonwyy","kmi1ihw5my11ki53x1y30yxk2myl2wl1w5m4kzwl");
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,9 +26,6 @@ public class DbConn {
 			// TODO Auto-generated catch block 
 			e.printStackTrace();
 		}
-		/*catch (IOException e) {
-			e.printStackTrace();
-		}*/
 		return conn;	
 	}
 
