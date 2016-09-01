@@ -30,7 +30,6 @@ public class InputThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public void setStart(boolean isStart) {// 提供接口给外部关闭读消息线程
