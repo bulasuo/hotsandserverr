@@ -35,6 +35,7 @@ public class Server {
             while (isStarted) {
                 System.out.println(MyDate.getDateCN() + " 服务器已启动...");
                 socket = serverSocket.accept();
+                socket.setKeepAlive(true);
                 System.out.println("客户端连接:");
                 String ip = socket.getInetAddress().toString();
                 System.out.println(MyDate.getDateCN() + " 用户：" + ip + " 已建立连接");

@@ -2,10 +2,11 @@ package com.blinkserver.server;
 
 import com.blinkserver.dao.UserDao;
 import com.blinkserver.util.MyDate;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.net.Socket;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.UUID;
 
 
 /**
@@ -15,43 +16,51 @@ import java.net.Socket;
  * 
  */
 public class InputThread extends Thread {
-	private Socket socket;// socket对象
-	private OutputThread out;// 传递进来的写消息线程，因为我们要给用户回复消息啊
-	private OutputThreadMap map;// 写消息线程缓存器
-	private ObjectInputStream ois;// 对象输入流
-	private boolean isStart = true;// 是否循环读消息
+	private Socket socket;
+	private OutputThread out;
+	private OutputThreadMap map;
+	private DataInputStream dis;
+	private boolean tryDestroy = false;
+	private static final int HeadBufferLength = 1024;
+
+	private byte[] headBuffer = new byte[HeadBufferLength];
+	private int headBufferIndex = 0;
+	private byte[] boundaryBytes = new byte[36];//数据的边界bytes
+
+	private int readLength;
+
 
 	public InputThread(Socket socket, OutputThread out, OutputThreadMap map) {
 		this.socket = socket;
 		this.out = out;
 		this.map = map;
 		try {
-			ois = new ObjectInputStream(socket.getInputStream());// 实例化对象输入流
+			dis = new DataInputStream(socket.getInputStream());// 实例化对象输入流
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void setStart(boolean isStart) {// 提供接口给外部关闭读消息线程
-		this.isStart = isStart;
-	}
-
 	@Override
 	public void run() {
 		try {
-			while (isStart) {
+			while (!tryDestroy) {
 				//增加一个5分钟没有连接就断开 防止客户端意外断开
-				// 读取消息
 				readMessage();
 			}
-			if (ois != null)
-				ois.close();
-			if (socket != null)
-				socket.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			try {
+				if (dis != null)
+					dis.close();
+				if (socket != null)
+					socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -63,6 +72,26 @@ public class InputThread extends Thread {
 	 * @throws ClassNotFoundException
 	 */
 	public void readMessage() throws IOException, ClassNotFoundException {
+		while(!tryDestroy) {//数据未和并完整前一直循环,或者数据异常,断开连接
+			while ((readLength = dis.read(headBuffer, headBufferIndex, HeadBufferLength - headBufferIndex)) > 0) {
+				System.out.println("readLength:" + readLength);
+				headBufferIndex += readLength;
+				if(headBufferIndex >= 41){//判断有没有包头,大于等于41把协议类型也包含在内
+					if(headBuffer[0] == TranProtocol.HEAD[0] && headBuffer[1] == TranProtocol.HEAD[1]
+						&& headBuffer[38] == TranProtocol.LINE[0] && headBuffer[39] == TranProtocol.LINE[1]) {
+						for(int i = 0; i < 36; i ++)
+							boundaryBytes[i] = headBuffer[2+i];
+						//有包头
+					}
+				}else{
+					//断开socket,重连
+//文件先保存到本地前  要判断数据尾格式对不对
+					return;
+				}
+
+			}
+		}
+		System.out.println("完成接收");
 		Object readObject = ois.readObject();// 从流中读取对象
 		UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台
 		if (readObject != null && readObject instanceof TranObject) {
