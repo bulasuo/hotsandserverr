@@ -11,9 +11,9 @@ import java.util.UUID;
 
 /**
  * 读消息线程和处理方法
- * 
+ *
  * @author way
- * 
+ *
  */
 public class InputThread extends Thread {
 	private Socket socket;
@@ -21,11 +21,15 @@ public class InputThread extends Thread {
 	private OutputThreadMap map;
 	private DataInputStream dis;
 	private boolean tryDestroy = false;
-	private static final int HeadBufferLength = 1024;
+	private static final int BUFFER_MAX_LENGTH= 1024;
 
-	private byte[] headBuffer = new byte[HeadBufferLength];
-	private int headBufferIndex = 0;
-	private byte[] boundaryBytes = new byte[36];//数据的边界bytes
+	private byte[] buffer = new byte[BUFFER_MAX_LENGTH];
+	private int bufferIndex = 0;
+	private byte[] dataBoundaryBytes = new byte[36];//边界
+	private byte dataProtocolType;//协议类型
+	private int imgSum;//图片数量
+	private int jsonStrLength;//jsonStr 长度
+
 
 	private int readLength;
 
@@ -66,31 +70,76 @@ public class InputThread extends Thread {
 	}
 
 	/**
+	 * 解析协议类型
+	 * @param type 第41个字节
+     */
+	private void goProtocolType(byte type) throws IOException {
+		switch(type){
+			case (byte)0x01:
+                readData(43);//读到43个字节
+                readData(43 + (buffer[42] & 0xff) * 4);
+                readData();
+
+				break;
+			case (byte)0xff:
+
+				break;
+		}
+	}
+
+    /**
+     * 读取数据到buffer 到buffer长度至少为minLength
+     * @param minLength
+     * @throws IOException
+     */
+    private void readData(int length) throws IOException {读到确定的长度
+        if(bufferIndex >= minLength)
+            return;
+        while(!tryDestroy)
+        {
+            while ((readLength = dis.read(buffer, bufferIndex, BUFFER_MAX_LENGTH - bufferIndex)) > 0)
+            {
+                System.out.println("readLength:" + readLength);
+                bufferIndex += readLength;
+                if(bufferIndex >= minLength)//数据长度到包头加协议类型后 判断是否是包头
+                    return;
+            }
+        }
+    }
+
+    private void readDataIntoBuffer(byte[] buf int length) throws IOException {把数据读到buffer
+        if(bufferIndex >= minLength)
+            return;
+        while(!tryDestroy)
+        {
+            while ((readLength = dis.read(buffer, bufferIndex, BUFFER_MAX_LENGTH - bufferIndex)) > 0)
+            {
+                System.out.println("readLength:" + readLength);
+                bufferIndex += readLength;
+                if(bufferIndex >= minLength)//数据长度到包头加协议类型后 判断是否是包头
+                    return;
+            }
+        }
+    }
+
+	/**
 	 * 读消息以及处理消息，抛出异常
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public void readMessage() throws IOException, ClassNotFoundException {
-		while(!tryDestroy) {//数据未和并完整前一直循环,或者数据异常,断开连接
-			while ((readLength = dis.read(headBuffer, headBufferIndex, HeadBufferLength - headBufferIndex)) > 0) {
-				System.out.println("readLength:" + readLength);
-				headBufferIndex += readLength;
-				if(headBufferIndex >= 41){//判断有没有包头,大于等于41把协议类型也包含在内
-					if(headBuffer[0] == TranProtocol.HEAD[0] && headBuffer[1] == TranProtocol.HEAD[1]
-						&& headBuffer[38] == TranProtocol.LINE[0] && headBuffer[39] == TranProtocol.LINE[1]) {
-						for(int i = 0; i < 36; i ++)
-							boundaryBytes[i] = headBuffer[2+i];
-						//有包头
-					}
-				}else{
-					//断开socket,重连
-//文件先保存到本地前  要判断数据尾格式对不对
-					return;
-				}
+	private void readMessage() throws IOException, ClassNotFoundException {
+        bufferIndex = 0;//准备读一个完整的包,先指针初始化
+        readData(41);//至少读到41个字节
+        if(buffer[0] == TranProtocol.HEAD[0] && buffer[1] == TranProtocol.HEAD[1]
+                && buffer[38] == TranProtocol.LINE[0] && buffer[39] == TranProtocol.LINE[1])
+        {
+            goProtocolType(buffer[40]);//当有包头后进入协议类型解析
+        } else {
+            //不是包头,数据错误 断开等待重连
+        }
 
-			}
-		}
+
 		System.out.println("完成接收");
 		Object readObject = ois.readObject();// 从流中读取对象
 		UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台

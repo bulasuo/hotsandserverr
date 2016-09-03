@@ -31,7 +31,7 @@ public class TranProtocol {
 
     public void sendData(DataOutputStream dos) throws Exception {
         switch(protocolType) {
-            case 0x01:
+            case (byte)0x01:
                 sendJasonStrAndFile(dos);
                 break;
             case (byte)0xff:
