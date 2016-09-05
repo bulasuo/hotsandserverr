@@ -25,7 +25,7 @@ public class XUtil {
             if (null != children)
                 //递归删除目录中的子目录下
                 for (int i = 0; i < children.length; i++) {
-                    boolean success = deleteDir(new File(dir, children[i]));
+                    boolean success = deleteDirAndFile(new File(dir, children[i]));
                     if (!success) {
                         return false;
                     }
