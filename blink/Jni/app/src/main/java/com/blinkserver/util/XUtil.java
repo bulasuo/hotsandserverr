@@ -1,10 +1,39 @@
 package com.blinkserver.util;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  * Created by abu on 2016/9/1 11:10.
  */
 public class XUtil {
 
+    public static void deleteDir(ArrayList<String> fileList){
+        File file;
+        for(String fileStr:fileList) {
+            file = new File(fileStr);
+            deleteDirAndFile(file);
+        }
+    }
+
+    /**
+     * 递归删除目录下的所有文件及子目录下所有文件
+     */
+    public static boolean deleteDirAndFile(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            if (null != children)
+                //递归删除目录中的子目录下
+                for (int i = 0; i < children.length; i++) {
+                    boolean success = deleteDir(new File(dir, children[i]));
+                    if (!success) {
+                        return false;
+                    }
+                }
+        }
+        // 目录此时为空，可以删除
+        return dir.delete();
+    }
 
     public static boolean isBytesEqual(byte[] buf0, int offset0, byte[] buf1, int offset1, int length){
         for(int i=0;i<length;i++)

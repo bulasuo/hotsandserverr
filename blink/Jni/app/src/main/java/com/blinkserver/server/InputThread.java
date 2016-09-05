@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 /**
  * 读消息线程和处理方法
- *
- * @author way
  */
 public class InputThread extends Thread {
     private Socket socket;
@@ -97,23 +95,31 @@ public class InputThread extends Thread {
                 final int fileCount = buffer[42] & 0xff;
                 readData(bufferIndex + 4 + fileCount * 4);
                 JSONObject json = readJson(XUtil.byteArray2Int(buffer, 43));
+                // TODO: 2016/9/5 先根据json看用户有权限传图片吗
+                //如果用户没权限传图片stop连接并且return;
+
                 ArrayList<String> fileList = new ArrayList<>();
                 for (int i = 0; i < fileCount; i++)
                     fileList.add(readImg(XUtil.byteArray2Int(buffer, 47 + i * 4)));
                 if (isPackLegal()) {
-                    // TODO: 2016/9/5  
+                    // TODO: 2016/9/5  如果合法则进行接下来的json功能逻辑
                     //json
                     System.out.println("jsonStr:"+json.toJSONString());
+                } else {
+                    XUtil.deleteDir(fileList);
+                    stopConnect();
                 }
                 break;
             case (byte) 0xff:
                 readData(bufferIndex + 4);
                 this.keyBytesAES = readAESKey(XUtil.byteArray2Int(buffer, bufferIndex - 4));
-                out.keyBytesAES = this.keyBytesAES;
                 if(isPackLegal()){
-                    // TODO: 2016/9/5
                     //AESKeyBytes
                     System.out.println("AESKey:"+XUtil.bytes2HexString(keyBytesAES));
+                    out.keyBytesAES = this.keyBytesAES;
+                } else {
+                    this.keyBytesAES = null;
+                    stopConnect();
                 }
                 break;
         }

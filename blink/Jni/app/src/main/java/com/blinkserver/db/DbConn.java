@@ -20,13 +20,11 @@ public class DbConn {
 //			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/blink?user=root&password=bulasuo@0220&useUnicode=true&characterEncoding=utf-8");
 ////			conn = DriverManager.getConnection("jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_shiyan10","jwwxxonwyy","kmi1ihw5my11ki53x1y30yxk2myl2wl1w5m4kzwl");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block 
 			e.printStackTrace();
 		}
-		return conn;	
+		return conn;
 	}
 
 	/**
@@ -38,7 +36,6 @@ public class DbConn {
 			try {
 				conn.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -53,7 +50,6 @@ public class DbConn {
 			try {
 				sm.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -68,7 +64,6 @@ public class DbConn {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

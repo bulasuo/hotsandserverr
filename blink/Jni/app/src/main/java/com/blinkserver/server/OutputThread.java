@@ -50,7 +50,7 @@ public class OutputThread extends Thread {
 			e.printStackTrace();
 		} finally {
 			try {
-				// TODO: 2016/9/5
+				// TODO: 2016/9/5 map去除当前outStream
 				// map.remove();
 				if (dos != null)
 					dos.close();
