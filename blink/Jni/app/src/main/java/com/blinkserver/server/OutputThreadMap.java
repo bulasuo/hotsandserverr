@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * 存放写线程的缓存器
- * 
- * @author way
+ * @author   abu   2016/9/5   13:45
  */
 public class OutputThreadMap {
 	private HashMap<Integer, OutputThread> map;

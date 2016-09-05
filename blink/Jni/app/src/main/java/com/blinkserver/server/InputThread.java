@@ -1,235 +1,258 @@
 package com.blinkserver.server;
 
-import com.blinkserver.dao.UserDao;
-import com.blinkserver.util.MyDate;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.blinkserver.Config;
+import com.blinkserver.security.SecurityHS;
+import com.blinkserver.util.XUtil;
 
 import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.UUID;
+import java.security.Key;
+import java.util.ArrayList;
 
 
 /**
  * 读消息线程和处理方法
  *
  * @author way
- *
  */
 public class InputThread extends Thread {
-	private Socket socket;
-	private OutputThread out;
-	private OutputThreadMap map;
-	private DataInputStream dis;
-	private boolean tryDestroy = false;
-	private static final int BUFFER_MAX_LENGTH= 1024;
+    private Socket socket;
+    private OutputThread out;
+    private OutputThreadMap map;
+    private DataInputStream dis;
+    private FileOutputStream fos;//图片写出流
 
-	private byte[] buffer = new byte[BUFFER_MAX_LENGTH];
-	private int bufferIndex = 0;
-	private byte[] dataBoundaryBytes = new byte[36];//边界
-	private byte dataProtocolType;//协议类型
-	private int imgSum;//图片数量
-	private int jsonStrLength;//jsonStr 长度
+    private Key keyPrivateRSA;//RSA公钥 用于给客户端
+    private byte[] keyBytesAES;//AES口令bytes 用于加密数据
 
+    private boolean tryDestroy = false;
+    private static final int BUFFER_MAX_LENGTH = 1024;
 
-	private int readLength;
+    private byte[] buffer = new byte[BUFFER_MAX_LENGTH];
+    private int bufferIndex = 0;//buffer实际数据长度,也是实际数据最后一位索引加1
 
 
-	public InputThread(Socket socket, OutputThread out, OutputThreadMap map) {
-		this.socket = socket;
-		this.out = out;
-		this.map = map;
-		try {
-			dis = new DataInputStream(socket.getInputStream());// 实例化对象输入流
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    private int readLength;
 
-	@Override
-	public void run() {
-		try {
-			while (!tryDestroy) {
-				//增加一个5分钟没有连接就断开 防止客户端意外断开
-				readMessage();
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (dis != null)
-					dis.close();
-				if (socket != null)
-					socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 
-	}
+    public InputThread(Socket socket, OutputThread out, OutputThreadMap map, Key keyPrivateRSA) {
+        this.socket = socket;
+        this.out = out;
+        this.map = map;
+        this.keyPrivateRSA = keyPrivateRSA;
+        try {
+            dis = new DataInputStream(socket.getInputStream());// 实例化对象输入流
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	/**
-	 * 解析协议类型
-	 * @param type 第41个字节
-     */
-	private void goProtocolType(byte type) throws IOException {
-		switch(type){
-			case (byte)0x01:
-                readData(43);//读到43个字节
-                readData(43 + (buffer[42] & 0xff) * 4);
-                readData();
+    @Override
+    public void run() {
+        try {
+            while (!tryDestroy) {
+                // TODO: 2016/9/5 心跳包
+                //增加一个5分钟没有连接就断开 防止客户端意外断开
+                readMessage();
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (fos != null)
+                    fos.close();
+                if (dis != null)
+                    dis.close();
+                if (socket != null)
+                    socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-				break;
-			case (byte)0xff:
-
-				break;
-		}
-	}
+    }
 
     /**
-     * 读取数据到buffer 到buffer长度至少为minLength
-     * @param minLength
+     * 解析协议类型
+     *
+     * @param type 第41个字节
+     */
+    private void goProtocolType(byte type) throws Exception {
+        switch (type) {
+            case (byte) 0x01:
+                if (keyBytesAES == null) {
+                    stopConnect();
+                    return;
+                }
+                readData(bufferIndex + 2);
+                final int fileCount = buffer[42] & 0xff;
+                readData(bufferIndex + 4 + fileCount * 4);
+                JSONObject json = readJson(XUtil.byteArray2Int(buffer, 43));
+                ArrayList<String> fileList = new ArrayList<>();
+                for (int i = 0; i < fileCount; i++)
+                    fileList.add(readImg(XUtil.byteArray2Int(buffer, 47 + i * 4)));
+                if (isPackLegal()) {
+                    // TODO: 2016/9/5  
+                    //json
+                    System.out.println("jsonStr:"+json.toJSONString());
+                }
+                break;
+            case (byte) 0xff:
+                readData(bufferIndex + 4);
+                this.keyBytesAES = readAESKey(XUtil.byteArray2Int(buffer, bufferIndex - 4));
+                out.keyBytesAES = this.keyBytesAES;
+                if(isPackLegal()){
+                    // TODO: 2016/9/5
+                    //AESKeyBytes
+                    System.out.println("AESKey:"+XUtil.bytes2HexString(keyBytesAES));
+                }
+                break;
+        }
+    }
+
+    /**
+     * 判断数据包是否合法
+     *
+     * @return
+     */
+    private boolean isPackLegal() throws IOException {
+        readData(bufferIndex + 42);
+        if (buffer[bufferIndex - 1] == TranProtocol.LINE[1]
+                && buffer[bufferIndex - 2] == TranProtocol.LINE[0]
+                && buffer[bufferIndex - 3] == TranProtocol.HEAD[0]
+                && buffer[bufferIndex - 4] == TranProtocol.HEAD[0]
+                && XUtil.isBytesEqual(buffer, bufferIndex - 40, buffer, 2, 36)
+                && buffer[bufferIndex - 41] == TranProtocol.HEAD[0]
+                && buffer[bufferIndex - 42] == TranProtocol.HEAD[0])
+            return true;
+        return false;
+    }
+
+    /**
+     * use when bufferIndex指向AESKey第一个字节
+     *@author   abu   2016/9/5   14:53
+     */
+    private byte[] readAESKey(int length) throws Exception {
+        byte[] temp = new byte[length];
+        readDataIntoBuffer(temp, length);
+        return SecurityHS.RSADecode(temp, keyPrivateRSA);
+    }
+
+    /**
+     * use when bufferIndex指向json断第一个字节
+     *@author   abu   2016/9/5   14:49
+     */
+    private JSONObject readJson(int length) throws Exception {
+        byte[] jsonBytes = new byte[length];
+        readDataIntoBuffer(jsonBytes, length);
+        return JSON.parseObject(new String(SecurityHS.AESDecode(jsonBytes, keyBytesAES)));
+    }
+
+    /**
+     * use when bufferIndex指向img第一个字节
+     *@author   abu   2016/9/5   14:50
+     */
+    private String readImg(int length) throws IOException {
+        final int IMG_BUFF_MAX = 1024;
+        byte[] imgBuf = new byte[IMG_BUFF_MAX];
+        final String filePath = Config.IMG_PATH + SecurityHS.MD5Encode(System.currentTimeMillis() + "");
+        fos = new FileOutputStream(new File(filePath));
+
+        int max = 0;
+        int readl = 0;
+        while (!tryDestroy) {
+
+            if (length >= IMG_BUFF_MAX)
+                max = IMG_BUFF_MAX;
+            else
+                max = length;
+            while ((readl = dis.read(imgBuf, 0, max)) > 0) {
+                length -= readl;
+                System.out.println("readLength:" + readl);
+                fos.write(imgBuf, 0, readl);
+                fos.flush();
+                if (length <= 0) {
+                    fos.close();
+                    return filePath;
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 读取数据到buffer 到buffer长度为length
+     *
+     * @param length 应该小于等于BUFFER_MAX_LENGTH
      * @throws IOException
      */
-    private void readData(int length) throws IOException {读到确定的长度
-        if(bufferIndex >= minLength)
+    private void readData(int length) throws IOException {
+        if (bufferIndex >= length || length > BUFFER_MAX_LENGTH)
             return;
-        while(!tryDestroy)
-        {
-            while ((readLength = dis.read(buffer, bufferIndex, BUFFER_MAX_LENGTH - bufferIndex)) > 0)
-            {
+        while (!tryDestroy) {
+            while ((readLength = dis.read(buffer, bufferIndex, length - bufferIndex)) > 0) {
                 System.out.println("readLength:" + readLength);
                 bufferIndex += readLength;
-                if(bufferIndex >= minLength)//数据长度到包头加协议类型后 判断是否是包头
+                if (bufferIndex >= length)
                     return;
             }
         }
     }
 
-    private void readDataIntoBuffer(byte[] buf int length) throws IOException {把数据读到buffer
-        if(bufferIndex >= minLength)
-            return;
-        while(!tryDestroy)
-        {
-            while ((readLength = dis.read(buffer, bufferIndex, BUFFER_MAX_LENGTH - bufferIndex)) > 0)
-            {
-                System.out.println("readLength:" + readLength);
-                bufferIndex += readLength;
-                if(bufferIndex >= minLength)//数据长度到包头加协议类型后 判断是否是包头
+    /**
+     * 把数据读到buffer
+     *
+     * @param buf
+     * @param length 应该小于等于buf的长度
+     * @throws IOException
+     */
+    private void readDataIntoBuffer(byte[] buf, int length) throws IOException {
+        int index = 0;
+        int readl = 0;
+        while (!tryDestroy) {
+            while ((readl = dis.read(buf, index, length - index)) > 0) {
+                System.out.println("readLength:" + readl);
+                index += readl;
+                if (index >= length)
                     return;
             }
         }
     }
 
-	/**
-	 * 读消息以及处理消息，抛出异常
-	 *
-	 * @throws IOException
-	 * @throws ClassNotFoundException
-	 */
-	private void readMessage() throws IOException, ClassNotFoundException {
+    /**
+     * 读消息以及处理消息，抛出异常
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void readMessage() throws Exception {
         bufferIndex = 0;//准备读一个完整的包,先指针初始化
         readData(41);//至少读到41个字节
-        if(buffer[0] == TranProtocol.HEAD[0] && buffer[1] == TranProtocol.HEAD[1]
-                && buffer[38] == TranProtocol.LINE[0] && buffer[39] == TranProtocol.LINE[1])
-        {
+        if (buffer[0] == TranProtocol.HEAD[0] && buffer[1] == TranProtocol.HEAD[0]
+                && buffer[38] == TranProtocol.LINE[0] && buffer[39] == TranProtocol.LINE[1]) {
             goProtocolType(buffer[40]);//当有包头后进入协议类型解析
         } else {
             //不是包头,数据错误 断开等待重连
+            stopConnect();
         }
 
+    }
 
-		System.out.println("完成接收");
-		Object readObject = ois.readObject();// 从流中读取对象
-		UserDao dao = UserDaoFactory.getInstance();// 通过dao模式管理后台
-		if (readObject != null && readObject instanceof TranObject) {
-			TranObject read_tranObject = (TranObject) readObject;// 转换成传输对象
-			switch (read_tranObject.getType()) {
-			case REGISTER:// 如果用户是注册
-				User registerUser = (User) read_tranObject.getObject();
-				int registerResult = dao.register(registerUser);
-				System.out.println(MyDate.getDateCN() + " 新用户注册:"
-						+ registerResult);
-				// 给用户回复消息
-				TranObject<User> register2TranObject = new TranObject<User>(
-						TranObjectType.REGISTER);
-				User register2user = new User();
-				register2user.setId(registerResult);
-				register2TranObject.setObject(register2user);
-				out.setMessage(register2TranObject);
-				break;
-			case LOGIN:
-				User loginUser = (User) read_tranObject.getObject();
-				ArrayList<User> list = dao.login(loginUser);
-				TranObject<ArrayList<User>> login2Object = new TranObject<ArrayList<User>>(
-						TranObjectType.LOGIN);
-				if (list != null) {// 如果登录成功
-					TranObject<User> onObject = new TranObject<User>(
-							TranObjectType.LOGIN);
-					User login2User = new User();
-					login2User.setId(loginUser.getId());
-					onObject.setObject(login2User);
-					for (OutputThread onOut : map.getAll()) {
-						onOut.setMessage(onObject);// 广播一下用户上线
-					}
-					map.add(loginUser.getId(), out);// 先广播，再把对应用户id的写线程存入map中，以便转发消息时调用
-					login2Object.setObject(list);// 把好友列表加入回复的对象中
-				} else {
-					login2Object.setObject(null);
-				}
-				out.setMessage(login2Object);// 同时把登录信息回复给用户
-
-				System.out.println(MyDate.getDateCN() + " 用户："
-						+ loginUser.getId() + " 上线了");
-				break;
-			case LOGOUT:// 如果是退出，更新数据库在线状态，同时群发告诉所有在线用户
-				User logoutUser = (User) read_tranObject.getObject();
-				int offId = logoutUser.getId();
-				System.out
-						.println(MyDate.getDateCN() + " 用户：" + offId + " 下线了");
-				dao.logout(offId);
-				isStart = false;// 结束自己的读循环
-				map.remove(offId);// 从缓存的线程中移除
-				out.setMessage(null);// 先要设置一个空消息去唤醒写线程
-				out.setStart(false);// 再结束写线程循环
-
-				TranObject<User> offObject = new TranObject<User>(
-						TranObjectType.LOGOUT);
-				User logout2User = new User();
-				logout2User.setId(logoutUser.getId());
-				offObject.setObject(logout2User);
-				for (OutputThread offOut : map.getAll()) {// 广播用户下线消息
-					offOut.setMessage(offObject);
-				}
-				break;
-			case MESSAGE:// 如果是转发消息（可添加群发）
-				// 获取消息中要转发的对象id，然后获取缓存的该对象的写线程
-				int id2 = read_tranObject.getToUser();
-				OutputThread toOut = map.getById(id2);
-				if (toOut != null) {// 如果用户在线
-					toOut.setMessage(read_tranObject);
-				} else {// 如果为空，说明用户已经下线,回复用户
-					TextMessage text = new TextMessage();
-					text.setMessage("亲！对方不在线哦，您的消息将暂时保存在服务器");
-					TranObject<TextMessage> offText = new TranObject<TextMessage>(
-							TranObjectType.MESSAGE);
-					offText.setObject(text);
-					offText.setFromUser(0);
-					out.setMessage(offText);
-				}
-				break;
-			case REFRESH:
-				List<User> refreshList = dao.refresh(read_tranObject
-						.getFromUser());
-				TranObject<List<User>> refreshO = new TranObject<List<User>>(
-						TranObjectType.REFRESH);
-				refreshO.setObject(refreshList);
-				out.setMessage(refreshO);
-				break;
-			default:
-				break;
-			}
-		}
-	}
+    /**
+     * 数据协议错误,没有经过三次握手就传数据, 则断开连接
+     *@author   abu   2016/9/5   15:15
+     */
+    private void stopConnect() throws IOException {
+        tryDestroy = true;
+        socket.close();
+    }
 }

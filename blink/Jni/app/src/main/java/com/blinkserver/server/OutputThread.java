@@ -15,6 +15,8 @@ public class OutputThread extends Thread {
 	private boolean tryDestroy = false;
 	private boolean tryStop = false;
 	private Socket socket;
+	public byte[] keyBytesAES;//AES口令bytes 用于加密数据
+
 
 	public OutputThread(Socket socket, OutputThreadMap map) {
 		try {
@@ -40,6 +42,8 @@ public class OutputThread extends Thread {
 						this.wait();
 					}
 					if (tranProtocol != null) {
+						if(keyBytesAES != null)
+							tranProtocol.keyBytesAES = this.keyBytesAES;
 						tranProtocol.sendData(dos);
 						dos.flush();
 					}
@@ -49,7 +53,8 @@ public class OutputThread extends Thread {
 			e.printStackTrace();
 		} finally {
 			try {
-				map.remove();
+				// TODO: 2016/9/5
+				// map.remove();
 				if (dos != null)
 					dos.close();
 				if (socket != null)

@@ -1,11 +1,14 @@
 package com.blinkserver.server;
 
 import com.blinkserver.Config;
+import com.blinkserver.security.SecurityHS;
 import com.blinkserver.util.MyDate;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -62,10 +65,18 @@ public class Server {
 
         @Override
         public void run() {
-            out = new OutputThread(socket, map);
-            in = new InputThread(socket, out, map);
-            in.start();
-            out.start();
+            try {
+                out = new OutputThread(socket, map);
+                out.start();
+                SecurityHS.RSAKeyParMaker mRSAKeyParMaker = new SecurityHS.RSAKeyParMaker();
+                TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
+                out.sendMessage(tranProtocol);
+                in = new InputThread(socket, out, map, mRSAKeyParMaker.privateKey);
+                in.start();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+                System.out.println("生成RSA秘钥对失败!");
+            }
         }
     }
 
@@ -82,6 +93,10 @@ public class Server {
     }
 
     public static void main(String[] args) {
+        //把图片文件夹检查一下 后面就不再判断了
+        File file = new File(Config.IMG_PATH);
+        if(!file.exists())
+            file.mkdirs();
         new Server().start();
 
     }

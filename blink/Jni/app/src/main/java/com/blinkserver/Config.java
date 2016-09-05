@@ -17,4 +17,6 @@ public class Config {
     public static final String MYSQL_USER_NAME = "root";
     public static final String MYSQL_PASSWORD = "bulasuo@0220";
 
+    public static final String IMG_PATH = "D:/img/";
+
 }

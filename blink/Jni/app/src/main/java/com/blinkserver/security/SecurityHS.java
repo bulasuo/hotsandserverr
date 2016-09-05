@@ -4,6 +4,7 @@ import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
@@ -21,12 +22,13 @@ import javax.crypto.KeyGenerator;
 public class SecurityHS {
     public static final String AES = "AES";
     public static final String RSA = "RSA";
+    public static final String MD5 = "MD5";
     /**
      * class 生成RSA秘钥对
      */
     public static class RSAKeyParMaker{
-        private RSAPrivateKey privateKey;
-        private RSAPublicKey publicKey;
+        public RSAPrivateKey privateKey;
+        public RSAPublicKey publicKey;
         private int KEY_SIZE = 1024;
 
         public RSAKeyParMaker() throws NoSuchAlgorithmException {
@@ -37,17 +39,10 @@ public class SecurityHS {
             publicKey = (RSAPublicKey) keyPair.getPublic();
         }
 
-        public RSAPrivateKey getPrivateKey() {
-            return privateKey;
-        }
-
-        public RSAPublicKey getPublicKey() {
-            return publicKey;
-        }
     }
 
     /**
-     * RSA加密
+     * RSA加密(服务器用不到,给android端写的方法)
      * @param data
      * @param key
      * @return
@@ -122,6 +117,23 @@ public class SecurityHS {
         cipher.init(Cipher.DECRYPT_MODE, securekey,sr);
         data = cipher.doFinal(data);
         return data;
+    }
+
+    public static String MD5Encode(String content) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance(MD5);// 获取一个实例，并传入加密方式
+            digest.reset();// 清空一下
+            digest.update(content.getBytes());// 写入内容,可以指定编码方式content.getBytes("utf-8");
+            StringBuilder builder = new StringBuilder();
+            for (byte b : digest.digest()) {
+                builder.append(Integer.toHexString((b >> 4) & 0xf));
+                builder.append(Integer.toHexString(b & 0xf));
+            }
+            return builder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

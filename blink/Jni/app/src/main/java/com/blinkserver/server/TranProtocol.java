@@ -17,10 +17,9 @@ public class TranProtocol {
     public static final byte[] HEAD = "--".getBytes();
     public static final byte[] LINE = "\r\n".getBytes();
 
-    private byte[] keyBytesAES;//AES口令bytes 用于加密数据
-    private Key keyPublicRSA;//RSA公钥 用于给客户端
-
     private byte protocolType;//协议类型
+    private Key keyPublicRSA;//RSA公钥 用于给客户端
+    public byte[] keyBytesAES;//AES口令bytes 用于加密数据
 
     private TranObj tranObj;//传输数据格式,比如json
 
@@ -28,11 +27,16 @@ public class TranProtocol {
 
     private String[] filePatch;
 
+    public TranProtocol(byte protocolType, Key keyPublicRSA){
+        this.protocolType = protocolType;
+        this.keyPublicRSA = keyPublicRSA;
+    }
+
 
     public void sendData(DataOutputStream dos) throws Exception {
         switch(protocolType) {
             case (byte)0x01:
-                sendJasonStrAndFile(dos);
+                sendJsonStrAndFile(dos);
                 break;
             case (byte)0xff:
                 sendRSAPublicKey(dos);
@@ -66,7 +70,9 @@ public class TranProtocol {
      * @param dos
      * @throws IOException
      */
-    public final void sendJasonStrAndFile(DataOutputStream dos) throws Exception {
+    public final void sendJsonStrAndFile(DataOutputStream dos) throws Exception {
+        if(keyBytesAES == null)
+            return;
         final byte[] boundaryBytes = UUID.randomUUID().toString().getBytes();
         final byte[] jsonStrEncodeBytes
                 = SecurityHS.AESEncode(JSON.toJSONString(tranObj).getBytes(), keyBytesAES);
