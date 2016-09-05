@@ -5,7 +5,6 @@ package com.blinkserver;
  */
 public class Config {
 
-    public static final String SERVER_IP = "192.168.155.1";
     public static final int SERVER_PORT = 8080;
 
     public static final int CLIENT_SERVER_PORT = 8081;

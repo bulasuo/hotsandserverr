@@ -13,7 +13,6 @@ public class OutputThread extends Thread {
 	private DataOutputStream dos;
 	private TranProtocol tranProtocol;
 	private boolean tryDestroy = false;
-	private boolean tryStop = false;
 	private Socket socket;
 	public byte[] keyBytesAES;//AES口令bytes 用于加密数据
 
@@ -38,9 +37,7 @@ public class OutputThread extends Thread {
 		try {
 			while (!tryDestroy) {
 				synchronized (this) {
-					while(tryStop) {
-						this.wait();
-					}
+					this.wait();
 					if (tranProtocol != null) {
 						if(keyBytesAES != null)
 							tranProtocol.keyBytesAES = this.keyBytesAES;

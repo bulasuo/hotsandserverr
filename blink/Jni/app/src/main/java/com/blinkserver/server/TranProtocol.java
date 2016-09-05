@@ -62,6 +62,7 @@ public class TranProtocol {
         dos.write(boundaryBytes);
         dos.write(HEAD);
         dos.write(LINE);
+        System.out.println("sendRSAPublicKey:"+XUtil.bytes2HexString(RSAPublicKeyBytes));
     }
 
     /**
