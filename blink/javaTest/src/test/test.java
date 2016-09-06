@@ -44,6 +44,9 @@ public class test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		JSONObject json = new JSONObject();
+		json.put("111", "111");
+		System.out.println("::"+json.getIntValue("22"));
 		
 		/*String text = "{\"name\":\"老张头\", \"age\":66}";
 				  

@@ -7,6 +7,7 @@ import java.net.Socket;
 
 /**
  * 写消息线程
+ *@author   abu   2016/9/6   10:06
  */
 public class OutputThread extends Thread {
 	private OutputThreadMap map;
@@ -15,6 +16,7 @@ public class OutputThread extends Thread {
 	private boolean tryDestroy = false;
 	private Socket socket;
 	public byte[] keyBytesAES;//AES口令bytes 用于加密数据
+	public boolean isLogin = false;//记录用户是否有个人权限
 
 
 	public OutputThread(Socket socket, OutputThreadMap map) {
