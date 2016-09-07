@@ -44,17 +44,20 @@ public class test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		int i = 0x100001;
+		System.out.println("::"+i);
+		
 		/*JSONObject json = new JSONObject();
 		json.put("111", "111");
 		System.out.println("::"+json.getIntValue("22"));*/
 		
-		String text = "{\"name\":\"老张头\", \"age\":66}";
+		/*String text = "{\"name\":\"老张头\", \"age\":66}";
 				  
 		        JSONObject json = JSON.parseObject(text);
 		        System.out.println("::"+json.toJSONString()+"\n"+(System.currentTimeMillis()+"").length());
 		
 		
-		System.out.println(byteArray2Int((intToByteArray(29009))));
+		System.out.println(byteArray2Int((intToByteArray(29009))));*/
 		/*int i =200;
 		byte b = (byte)(i&0xff);
 		byte bb = (byte)0xf;
