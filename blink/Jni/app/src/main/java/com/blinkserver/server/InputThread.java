@@ -54,7 +54,7 @@ public class InputThread extends Thread {
     @Override
     public void run() {
         try {
-            while (!tryDestroy) {
+            while (!socket.isClosed() && !tryDestroy) {
                 // TODO: 2016/9/5 心跳包
                 //增加一个5分钟没有连接就断开 防止客户端意外断开
                 readMessage();

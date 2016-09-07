@@ -37,15 +37,15 @@ public class OutputThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			while (!tryDestroy) {
+			while (!socket.isClosed() && !tryDestroy) {
 				synchronized (this) {
-					this.wait();
 					if (tranProtocol != null) {
 						if(keyBytesAES != null)
 							tranProtocol.keyBytesAES = this.keyBytesAES;
 						tranProtocol.sendData(dos);
 						dos.flush();
 					}
+					this.wait();
 				}
 			}
 		} catch (Exception e) {

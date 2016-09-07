@@ -34,8 +34,13 @@ public class UserAction implements ActionInterface{
             case VALUE.USER_DETAIL__QUERY:
 
                 break;
+            case VALUE.USER_GET_SMS:
+
+                break;
             default:
                 break;
         }
     }
+
+
 }

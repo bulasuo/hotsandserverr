@@ -17,6 +17,7 @@ public class ActionFilter implements ActionInterface{
             case VALUE.USER_DETAIL__INSERT:
             case VALUE.USER_DETAIL__UPDATE:
             case VALUE.USER_DETAIL__QUERY:
+            case VALUE.USER_GET_SMS:
                 UserAction.doAction(out, json);
                 break;
             case VALUE.BLINK__BLINK:

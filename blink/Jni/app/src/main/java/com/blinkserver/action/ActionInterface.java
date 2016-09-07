@@ -70,6 +70,7 @@ public interface ActionInterface {
                 , USER_DETAIL__DELETE = 43       //用户详细信息删除<(user和user_detail表)不进行删除活动>
                 , USER_DETAIL__UPDATE = 44       //用户详细信息修改
                 , USER_DETAIL__QUERY = 45        //用户详细查询
+                , USER_GET_SMS = 46             //用户获取短信验证码
                 ;
     }
 }

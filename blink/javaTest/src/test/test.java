@@ -44,18 +44,17 @@ public class test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		JSONObject json = new JSONObject();
+		/*JSONObject json = new JSONObject();
 		json.put("111", "111");
-		System.out.println("::"+json.getIntValue("22"));
+		System.out.println("::"+json.getIntValue("22"));*/
 		
-		/*String text = "{\"name\":\"老张头\", \"age\":66}";
+		String text = "{\"name\":\"老张头\", \"age\":66}";
 				  
-		        *//** 将JSON字符串转换为JSON对象 **//*  
 		        JSONObject json = JSON.parseObject(text);
-		        System.out.println("::"+UUID.randomUUID().toString().getBytes().length);
+		        System.out.println("::"+json.toJSONString()+"\n"+(System.currentTimeMillis()+"").length());
 		
 		
-		System.out.println(byteArray2Int((intToByteArray(29009))));*/
+		System.out.println(byteArray2Int((intToByteArray(29009))));
 		/*int i =200;
 		byte b = (byte)(i&0xff);
 		byte bb = (byte)0xf;
