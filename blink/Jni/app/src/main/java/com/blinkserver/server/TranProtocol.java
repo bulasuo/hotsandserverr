@@ -56,7 +56,7 @@ public class TranProtocol {
         dos.write(LINE);
         //协议类型 0xff服务端给客户端的RSA公钥
         dos.write((byte) 0xff);
-        dos.write(XUtil.intToByteArray(RSAPublicKeyBytes.length));
+        dos.write(XUtil.int2ByteArray(RSAPublicKeyBytes.length));
         dos.write(RSAPublicKeyBytes);
         dos.write(HEAD);
         dos.write(boundaryBytes);
@@ -85,7 +85,7 @@ public class TranProtocol {
         //jsonStr个数
         dos.write((byte) 0x01);
         //jsonStr 长度,单位字节
-        dos.write(XUtil.intToByteArray(jsonStrEncodeBytes.length));
+        dos.write(XUtil.int2ByteArray(jsonStrEncodeBytes.length));
         //文件个数为0则省略文件长度
         dos.write((byte) 0x00);
         dos.write(jsonStrEncodeBytes);

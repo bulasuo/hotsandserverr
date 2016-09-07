@@ -89,7 +89,7 @@ public class XUtil {
         return true;
     }
 
-    public static byte[] intToByteArray(int i) {
+    public static byte[] int2ByteArray(int i) {
         byte[] r = new byte[4];
         r[0] = (byte) ((i >> 24) & 0xFF);
         r[1] = (byte) ((i >> 16) & 0xFF);
