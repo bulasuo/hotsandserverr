@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50624
 File Encoding         : 65001
 
-Date: 2016-08-30 15:41:41
+Date: 2016-09-07 16:44:07
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `blinker` (
   KEY `bk_blinkerId` (`bk_blinkerId`) USING BTREE,
   CONSTRAINT `bk_blinkerId` FOREIGN KEY (`bk_blinkerId`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `bk_blinkeredId` FOREIGN KEY (`bk_blinkeredId`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of blinker
@@ -103,6 +103,25 @@ CREATE TABLE `dynamicimg` (
 -- ----------------------------
 INSERT INTO `dynamicimg` VALUES ('1', '3', 'www');
 INSERT INTO `dynamicimg` VALUES ('3', '3', 'www2');
+
+-- ----------------------------
+-- Table structure for `iplog`
+-- ----------------------------
+DROP TABLE IF EXISTS `iplog`;
+CREATE TABLE `iplog` (
+  `iplog_id` int(10) NOT NULL AUTO_INCREMENT,
+  `ip` varchar(15) NOT NULL COMMENT '唯一索引',
+  `sms_time` bigint(13) NOT NULL COMMENT '上传请求短信验证的时间戳',
+  `sms_date` datetime NOT NULL COMMENT '上传请求短信验证的日期',
+  PRIMARY KEY (`iplog_id`),
+  UNIQUE KEY `ip` (`ip`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iplog
+-- ----------------------------
+INSERT INTO `iplog` VALUES ('1', '', '0', '2016-09-22 15:11:11');
+INSERT INTO `iplog` VALUES ('2', '192.168.1.1', '1473235153767', '2016-09-07 15:59:13');
 
 -- ----------------------------
 -- Table structure for `movie`
@@ -352,7 +371,7 @@ CREATE TABLE `user_detail` (
   PRIMARY KEY (`ud_id`,`u_id`),
   UNIQUE KEY `detail_user` (`u_id`) USING BTREE,
   CONSTRAINT `detail_user` FOREIGN KEY (`u_id`) REFERENCES `user` (`u_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user_detail

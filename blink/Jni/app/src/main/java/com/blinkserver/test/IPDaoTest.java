@@ -1,10 +1,5 @@
 package com.blinkserver.test;
 
-import com.blinkserver.dao.IPLogDao;
-import com.blinkserver.exception.OnExceptionListener;
-
-import java.sql.SQLException;
-
 /**
  * Created by abu on 2016/9/7 15:41.
  */
@@ -31,13 +26,13 @@ public class IPDaoTest {
             }
         }));*/
 
-        System.out.println("ww::" + IPLogDao.queryByIP("192.168.10.1", new OnExceptionListener() {
+        /*System.out.println("ww::" + IPLogDao.queryByIP("192.168.10.1", new OnExceptionListener() {
             @Override
             public void onSQLException(SQLException e) {
                 super.onSQLException(e);
                 System.out.println("Exception:" + e.toString());
             }
-        }).toString());
+        }).toString());*/
 
         long time_end = System.currentTimeMillis();
         System.out.println("end  :"+time_end+"\ntime cost:"+(time_end-time_start));

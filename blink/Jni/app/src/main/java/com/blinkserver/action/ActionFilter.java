@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.blinkserver.server.OutputThread;
 
 /**
+ * 多个程序员开发时在此处分流action,在这之前要现在ActionInterface定义action并且不能与以前的action重复
  * Created by abu on 2016/9/6 09:09.
  */
 public class ActionFilter implements ActionInterface{
