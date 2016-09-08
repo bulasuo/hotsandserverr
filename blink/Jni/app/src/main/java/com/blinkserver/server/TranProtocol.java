@@ -36,7 +36,7 @@ public class TranProtocol {
     public void sendData(DataOutputStream dos) throws Exception {
         switch(protocolType) {
             case (byte)0x01:
-                sendJsonStrAndFile(dos);
+                sendJsonStr(dos);
                 break;
             case (byte)0xff:
                 sendRSAPublicKey(dos);
@@ -71,7 +71,7 @@ public class TranProtocol {
      * @param dos
      * @throws IOException
      */
-    public final void sendJsonStrAndFile(DataOutputStream dos) throws Exception {
+    public final void sendJsonStr(DataOutputStream dos) throws Exception {
         if(keyBytesAES == null)
             return;
         final byte[] boundaryBytes = UUID.randomUUID().toString().getBytes();

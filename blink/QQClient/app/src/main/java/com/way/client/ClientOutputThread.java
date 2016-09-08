@@ -1,17 +1,15 @@
 package com.way.client;
 
+import com.way.chat.common.tran.bean.TranObject;
+import com.way.chat.common.tran.bean.TranObjectType;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import com.way.chat.common.tran.bean.TranObject;
-import com.way.chat.common.tran.bean.TranObjectType;
-
 /**
  * 客户端写消息线程
- * 
- * @author way
- * 
+ *@author   abu   2016/9/8   16:01
  */
 public class ClientOutputThread extends Thread {
 	private Socket socket;
