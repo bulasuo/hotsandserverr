@@ -23,7 +23,7 @@ public class TranProtocol {
 
     private TranObj tranObj;//传输数据格式,比如json
 
-    private byte fileCounts;
+    private byte fileCounts = (byte)0x00;
 
     private String[] filePatch;
 
@@ -66,7 +66,7 @@ public class TranProtocol {
     }
 
     /**
-     * 协议类型0x00:JsonStr 和 img 文件
+     * 协议类型0x00:JsonStr 和 0个img 文件
      *
      * @param dos
      * @throws IOException
@@ -84,10 +84,11 @@ public class TranProtocol {
         dos.write((byte) 0x01);
         //jsonStr个数
         dos.write((byte) 0x01);
+        //文件个数为0,
+        dos.write((byte) 0x00);
         //jsonStr 长度,单位字节
         dos.write(XUtil.int2ByteArray(jsonStrEncodeBytes.length));
-        //文件个数为0则省略文件长度
-        dos.write((byte) 0x00);
+        //省略文件长度和文件
         dos.write(jsonStrEncodeBytes);
         dos.write(HEAD);
         dos.write(boundaryBytes);
