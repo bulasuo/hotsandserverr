@@ -100,4 +100,6 @@ public class Server {
         new Server().start();
 
     }
+
+    // TODO: 2016/9/9 要在凌晨4点扫一下所有连接, 僵尸连接就tryDestroy() 
 }

@@ -48,7 +48,7 @@ public class TranProtocol {
         }
     }
 
-    public final void sendRSAPublicKey(DataOutputStream dos) throws IOException {
+    public final void sendRSAPublicKey(DataOutputStream dos) throws Exception {
         final byte[] RSAPublicKeyBytes = keyPublicRSA.getEncoded();
         final byte[] boundaryBytes = UUID.randomUUID().toString().getBytes();
         dos.write(HEAD);

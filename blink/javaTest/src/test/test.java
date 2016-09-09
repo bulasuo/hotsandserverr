@@ -1,5 +1,8 @@
 package test;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
@@ -44,8 +47,20 @@ public class test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int i = 0x100001;
+		Socket socket = new Socket();
+		try {
+//			socket.close();
+			socket.connect(new InetSocketAddress("192.168.1.1", 8080), 1000);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("::"+socket.isClosed());
+		
+		/*int i = 0x100001;
 		System.out.println("::"+i);
+		byte bb = (byte)200 ;
+		System.out.println("bb::"+bb);*/
 		
 		/*JSONObject json = new JSONObject();
 		json.put("111", "111");

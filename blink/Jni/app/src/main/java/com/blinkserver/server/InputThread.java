@@ -25,6 +25,7 @@ public class InputThread extends Thread {
     private OutputThreadMap map;
     private DataInputStream dis;
     private FileOutputStream fos;//图片写出流
+    private ArrayList<String> fileList;
 
     private Key keyPrivateRSA;//RSA公钥 用于给客户端
     private byte[] keyBytesAES;//AES口令bytes 用于加密数据
@@ -37,6 +38,20 @@ public class InputThread extends Thread {
 
 
     private int readLength;
+
+    public void tryDestroy(){
+        try {
+            tryDestroy = true;
+            if (fos != null)
+                fos.close();
+            if (dis != null)
+                dis.close();
+            if (socket != null)
+                socket.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     public InputThread(Socket socket, OutputThread out, OutputThreadMap map, Key keyPrivateRSA) {
@@ -59,25 +74,26 @@ public class InputThread extends Thread {
                 //增加一个5分钟没有连接就断开 防止客户端意外断开
                 readMessage();
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+
             try {
+                out.tryDestroy = true;
+                out.tryDestroy();
+                out = null;
                 if (fos != null)
                     fos.close();
                 if (dis != null)
                     dis.close();
                 if (socket != null)
                     socket.close();
-            } catch (IOException e) {
+                if(fileList != null)
+                    XUtil.deleteDir(fileList);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     /**
@@ -99,15 +115,14 @@ public class InputThread extends Thread {
                 // TODO: 2016/9/5 先根据json看用户有权限传图片吗
                 //如果用户没权限传图片stop连接并且return;
 
-                ArrayList<String> fileList = new ArrayList<>();
+                fileList = new ArrayList<>();
                 for (int i = 0; i < fileCount; i++)
-                    fileList.add(readImg(XUtil.byteArray2Int(buffer, 47 + i * 4)));
+                    fileList.add(readImg(XUtil.byteArray2Int(buffer, 47 + i * 4), fileList));
                 if (isPackLegal()) {
                     // TODO: 2016/9/5  如果合法则进行接下来的json功能逻辑
                     //json
                     System.out.println("jsonStr:"+json.toJSONString());
                 } else {
-                    XUtil.deleteDir(fileList);
                     stopConnect();
                 }
                 break;
@@ -131,7 +146,7 @@ public class InputThread extends Thread {
      *
      * @return
      */
-    private boolean isPackLegal() throws IOException {
+    private boolean isPackLegal() throws Exception {
         readData(bufferIndex + 42);
         if (buffer[bufferIndex - 1] == TranProtocol.LINE[1]
                 && buffer[bufferIndex - 2] == TranProtocol.LINE[0]
@@ -168,7 +183,7 @@ public class InputThread extends Thread {
      * use when bufferIndex指向img第一个字节
      *@author   abu   2016/9/5   14:50
      */
-    private String readImg(int length) throws IOException {
+    private String readImg(int length, ArrayList<String> fileList) throws Exception {
         final int IMG_BUFF_MAX = 1024;
         byte[] imgBuf = new byte[IMG_BUFF_MAX];
         final String filePath = Config.IMG_PATH + SecurityHS.MD5Encode(System.currentTimeMillis() + "");
@@ -185,6 +200,10 @@ public class InputThread extends Thread {
             while ((readl = dis.read(imgBuf, 0, max)) > 0) {
                 length -= readl;
                 System.out.println("readLength:" + readl);
+                if(readl == -1){
+                    fos.close();
+                    throw new IOException();
+                }
                 fos.write(imgBuf, 0, readl);
                 fos.flush();
                 if (length <= 0) {
@@ -200,14 +219,16 @@ public class InputThread extends Thread {
      * 读取数据到buffer 到buffer长度为length
      *
      * @param length 应该小于等于BUFFER_MAX_LENGTH
-     * @throws IOException
+     * @throws Exception
      */
-    private void readData(int length) throws IOException {
+    private void readData(int length) throws Exception {
         if (bufferIndex >= length || length > BUFFER_MAX_LENGTH)
             return;
         while (!tryDestroy) {
             while ((readLength = dis.read(buffer, bufferIndex, length - bufferIndex)) > 0) {
                 System.out.println("readLength:" + readLength);
+                if(readLength == -1)
+                    throw new IOException();
                 bufferIndex += readLength;
                 if (bufferIndex >= length)
                     return;
@@ -222,12 +243,14 @@ public class InputThread extends Thread {
      * @param length 应该小于等于buf的长度
      * @throws IOException
      */
-    private void readDataIntoBuffer(byte[] buf, int length) throws IOException {
+    private void readDataIntoBuffer(byte[] buf, int length) throws Exception {
         int index = 0;
         int readl = 0;
         while (!tryDestroy) {
             while ((readl = dis.read(buf, index, length - index)) > 0) {
                 System.out.println("readLength:" + readl);
+                if(readl == -1)
+                    throw new IOException();
                 index += readl;
                 if (index >= length)
                     return;
@@ -258,8 +281,7 @@ public class InputThread extends Thread {
      * 数据协议错误,没有经过三次握手就传数据, 则断开连接
      *@author   abu   2016/9/5   15:15
      */
-    private void stopConnect() throws IOException {
-        tryDestroy = true;
-        socket.close();
+    private void stopConnect() throws Exception {
+        throw new Exception();
     }
 }
