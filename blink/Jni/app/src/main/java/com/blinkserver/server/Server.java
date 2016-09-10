@@ -74,6 +74,8 @@ public class Server {
                 TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
                 out.sendMessage(tranProtocol);
             } catch (NoSuchAlgorithmException e) {
+                out.tryDestroy();
+                in.tryDestroy();
                 e.printStackTrace();
                 System.out.println("生成RSA秘钥对失败!");
             }
