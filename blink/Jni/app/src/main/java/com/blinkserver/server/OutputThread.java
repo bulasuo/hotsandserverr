@@ -43,16 +43,18 @@ public class OutputThread extends Thread {
         }
     }
 
-    public synchronized void sendMessage(TranProtocol tranProtocol) {
-        tranProtocolList.add(tranProtocol);
-        this.notifyAll();
+    public void sendMessage(TranProtocol tranProtocol) {
+        synchronized (tranProtocolList) {
+            tranProtocolList.add(tranProtocol);
+            this.notifyAll();
+        }
     }
 
     @Override
     public void run() {
         try {
             while (!socket.isClosed() && !tryDestroy) {
-                synchronized (this) {
+                synchronized (tranProtocolList) {
                     if (tranProtocolList.size() > 0) {
                         for (TranProtocol tranProtocol : tranProtocolList) {
                             if (keyBytesAES != null)
