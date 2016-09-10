@@ -66,13 +66,13 @@ public class Server {
         @Override
         public void run() {
             try {
-                out = new OutputThread(socket, map);
-                out.start();
                 SecurityHS.RSAKeyParMaker mRSAKeyParMaker = new SecurityHS.RSAKeyParMaker();
-                TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
-                out.sendMessage(tranProtocol);
+                out = new OutputThread(socket, map);
                 in = new InputThread(socket, out, map, mRSAKeyParMaker.privateKey);
                 in.start();
+                out.start();
+                TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
+                out.sendMessage(tranProtocol);
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
                 System.out.println("生成RSA秘钥对失败!");
