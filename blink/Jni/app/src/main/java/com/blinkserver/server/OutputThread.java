@@ -44,27 +44,31 @@ public class OutputThread extends Thread {
     }
 
     public void sendMessage(TranProtocol tranProtocol) {
-        synchronized (tranProtocolList) {
+        synchronized (this) {
             tranProtocolList.add(tranProtocol);
-            this.notifyAll();
+            this.notifyAll();//在拥有锁的前提下执行完synchronized语句块后<执行完就是释放了锁>,唤醒在此锁上睡眠的线程
         }
     }
 
     @Override
     public void run() {
         try {
-            while (!socket.isClosed() && !tryDestroy) {
-                synchronized (tranProtocolList) {
-                    if (tranProtocolList.size() > 0) {
-                        for (TranProtocol tranProtocol : tranProtocolList) {
-                            if (keyBytesAES != null)
-                                tranProtocol.keyBytesAES = this.keyBytesAES;
-                            tranProtocol.sendData(dos);
-                            dos.flush();
-                            tranProtocolList.remove(tranProtocol);
-                        }
+            while (true) {
+                synchronized (this) {
+                    while(tranProtocolList.size() <= 0){
+                        this.wait();//释放锁并且睡眠
+                        if(socket.isClosed() || tryDestroy)
+                            tryDestroy();
                     }
-                    this.wait();
+                    TranProtocol tranProtocol;
+                    for(int i=0;i<tranProtocolList.size();i++){
+                        tranProtocol = tranProtocolList.get(i);
+                        if (keyBytesAES != null)
+                            tranProtocol.keyBytesAES = this.keyBytesAES;
+                        tranProtocol.sendData(dos);
+                        dos.flush();
+                        tranProtocolList.remove(tranProtocol);
+                    }
                 }
             }
         } catch (Exception e) {

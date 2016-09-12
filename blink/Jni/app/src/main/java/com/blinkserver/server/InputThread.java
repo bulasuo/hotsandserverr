@@ -77,7 +77,6 @@ public class InputThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-
             try {
                 out.tryDestroy = true;
                 out.tryDestroy();

@@ -21,6 +21,7 @@ public class Server {
     private ServerSocket serverSocket = null;
     private Socket socket = null;
     private boolean isStarted = true;
+    private int sum = 0;
 
     public Server() {
         try {
@@ -35,19 +36,19 @@ public class Server {
 
     public void start() {
         try {
+            System.out.println("服务器已启动... " + MyDate.getDateCN());
             while (isStarted) {
-                System.out.println(MyDate.getDateCN() + " 服务器已启动...");
                 socket = serverSocket.accept();
                 socket.setKeepAlive(true);
-                System.out.println("客户端连接:");
                 String ip = socket.getInetAddress().toString();
-                System.out.println(MyDate.getDateCN() + " 用户：" + ip + " 已建立连接");
-                if (socket.isConnected())
+                if (socket.isConnected()) {
+                    System.out.println(ip + " 已建立连接 "+ MyDate.getDateCN() + "\nsum:"+ ++sum);
                     executorService.execute(new SocketTask(socket));// 添加到线程池
+                }
             }
             if (serverSocket != null)
                 serverSocket.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
