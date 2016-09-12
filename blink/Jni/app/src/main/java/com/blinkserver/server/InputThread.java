@@ -61,7 +61,7 @@ public class InputThread extends Thread {
         this.keyPrivateRSA = keyPrivateRSA;
         try {
             dis = new DataInputStream(socket.getInputStream());// 实例化对象输入流
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -76,6 +76,7 @@ public class InputThread extends Thread {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("Exception");
         } finally {
             try {
                 out.tryDestroy = true;
@@ -165,6 +166,7 @@ public class InputThread extends Thread {
     private byte[] readAESKey(int length) throws Exception {
         byte[] temp = new byte[length];
         readDataIntoBuffer(temp, length);
+        System.out.println("\nreadAES:"+temp.length+"-"+XUtil.bytes2HexString(temp));
         return SecurityHS.RSADecode(temp, keyPrivateRSA);
     }
 

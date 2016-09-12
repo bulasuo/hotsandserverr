@@ -47,7 +47,11 @@ public class test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Socket socket = new Socket();
+		System.out.println("30819f300d06092a864886f70d010101050003818d0030818902818100ca14660774f7197251d24ed92bda4c9b87bfba43da341e9ae50e1aad5d664d4cddb8f93d01923503e0b84801692012e55babf62745182fdcb5cd66e70679d466f67fe1c364a4282b434e426d513541879050fa0fe69a15958c196a3b67aa865dd716c4bd3897fe6dff08895c891946c9905d642d4640682b8613d336a855cf4b0203010001"
+				   .equals("30819f300d06092a864886f70d010101050003818d0030818902818100ca14660774f7197251d24ed92bda4c9b87bfba43da341e9ae50e1aad5d664d4cddb8f93d01923503e0b84801692012e55babf62745182fdcb5cd66e70679d466f67fe1c364a4282b434e426d513541879050fa0fe69a15958c196a3b67aa865dd716c4bd3897fe6dff08895c891946c9905d642d4640682b8613d336a855cf4b0203010001"));
+		
+		
+		/*Socket socket = new Socket();
 		try {
 //			socket.close();
 			socket.connect(new InetSocketAddress("192.168.1.1", 8080), 1000);
@@ -55,7 +59,7 @@ public class test {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("::"+socket.isClosed());
+		System.out.println("::"+socket.isClosed());*/
 		
 		/*int i = 0x100001;
 		System.out.println("::"+i);
