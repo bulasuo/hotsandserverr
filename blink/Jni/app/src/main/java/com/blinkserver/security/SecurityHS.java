@@ -157,8 +157,6 @@ public class SecurityHS {
         return null;
     }
 
-
-
     /**
      * @param args
      */
@@ -222,7 +220,6 @@ public class SecurityHS {
 
         final long endTime = System.currentTimeMillis();
         System.out.println("end  :"+endTime+"\nuse time:"+(endTime - startTime));
-
     }
 }
 

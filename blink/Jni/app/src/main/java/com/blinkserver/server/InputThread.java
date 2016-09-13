@@ -9,7 +9,6 @@ import com.blinkserver.util.XUtil;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.net.Socket;
 import java.security.Key;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class InputThread extends Thread {
     private OutputThread out;
     private OutputThreadMap map;
     private DataInputStream dis;
-    private FileOutputStream fos;//图片写出流
+    private FileOutputStream fos;
     private ArrayList<String> fileList;
 
     private Key keyPrivateRSA;//RSA公钥 用于给客户端
@@ -40,17 +39,11 @@ public class InputThread extends Thread {
     private int readLength;
 
     public void tryDestroy(){
-        try {
-            tryDestroy = true;
-            if (fos != null)
-                fos.close();
-            if (dis != null)
-                dis.close();
-            if (socket != null)
-                socket.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tryDestroy = true;
+        XUtil.closeFileOutputStream(fos);
+        XUtil.closeDataInputStream(dis);
+        XUtil.closeSocket(socket);
+        this.interrupt();
     }
 
 
@@ -69,7 +62,7 @@ public class InputThread extends Thread {
     @Override
     public void run() {
         try {
-            while (!socket.isClosed() && !tryDestroy) {
+            while (!isInterrupted() && !socket.isClosed() && !tryDestroy) {
                 // TODO: 2016/9/5 心跳包
                 //增加一个5分钟没有连接就断开 防止客户端意外断开
                 readMessage();
@@ -78,21 +71,13 @@ public class InputThread extends Thread {
             e.printStackTrace();
             System.out.println("Exception");
         } finally {
-            try {
-                out.tryDestroy = true;
-                out.tryDestroy();
-                out = null;
-                if (fos != null)
-                    fos.close();
-                if (dis != null)
-                    dis.close();
-                if (socket != null)
-                    socket.close();
-                if(fileList != null)
-                    XUtil.deleteDir(fileList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            out.tryDestroy = true;
+            out.tryDestroy();
+            out = null;
+            XUtil.closeFileOutputStream(fos);
+            XUtil.closeDataInputStream(dis);
+            XUtil.closeSocket(socket);
+            XUtil.deleteDir(fileList);
         }
     }
 
@@ -199,16 +184,16 @@ public class InputThread extends Thread {
             while ((readl = dis.read(imgBuf, 0, max)) > 0) {
                 length -= readl;
                 System.out.println("readLength:" + readl);
-                if(readl == -1){
-                    fos.close();
-                    throw new IOException();
-                }
                 fos.write(imgBuf, 0, readl);
                 fos.flush();
                 if (length <= 0) {
                     fos.close();
                     return filePath;
                 }
+            }
+            if(readl == -1){
+                fos.close();
+                throw new Exception();
             }
         }
         return null;
@@ -222,16 +207,16 @@ public class InputThread extends Thread {
      */
     private void readData(int length) throws Exception {
         if (bufferIndex >= length || length > BUFFER_MAX_LENGTH)
-            return;
+            throw new Exception();
         while (!tryDestroy) {
             while ((readLength = dis.read(buffer, bufferIndex, length - bufferIndex)) > 0) {
                 System.out.println("readLength:" + readLength);
-                if(readLength == -1)
-                    throw new IOException();
                 bufferIndex += readLength;
                 if (bufferIndex >= length)
                     return;
             }
+            if(readLength == -1)
+                throw new Exception();
         }
     }
 
@@ -240,7 +225,6 @@ public class InputThread extends Thread {
      *
      * @param buf
      * @param length 应该小于等于buf的长度
-     * @throws IOException
      */
     private void readDataIntoBuffer(byte[] buf, int length) throws Exception {
         int index = 0;
@@ -248,19 +232,18 @@ public class InputThread extends Thread {
         while (!tryDestroy) {
             while ((readl = dis.read(buf, index, length - index)) > 0) {
                 System.out.println("readLength:" + readl);
-                if(readl == -1)
-                    throw new IOException();
                 index += readl;
                 if (index >= length)
                     return;
             }
+            if(readl == -1)
+                throw new Exception();
         }
     }
 
     /**
      * 读消息以及处理消息，抛出异常
      *
-     * @throws IOException
      * @throws ClassNotFoundException
      */
     private void readMessage() throws Exception {

@@ -1,6 +1,8 @@
 package com.blinkserver.server;
 
 
+import com.blinkserver.util.XUtil;
+
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -21,15 +23,10 @@ public class OutputThread extends Thread {
     public boolean isLogin = false;//记录用户是否有个人权限
 
     public void tryDestroy() {
-        try {
-            tryDestroy = true;
-            if (dos != null)
-                dos.close();
-            if (socket != null)
-                socket.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tryDestroy = true;
+        XUtil.closeDataOutputStream(dos);
+        XUtil.closeSocket(socket);
+        this.interrupt();
     }
 
 
@@ -57,8 +54,8 @@ public class OutputThread extends Thread {
                 synchronized (this) {
                     while(tranProtocolList.size() <= 0){
                         this.wait();//释放锁并且睡眠
-                        if(socket.isClosed() || tryDestroy)
-                            tryDestroy();
+                        if(isInterrupted() || socket.isClosed() || tryDestroy)
+                            throw new Exception();
                     }
                     TranProtocol tranProtocol;
                     for(int i=0;i<tranProtocolList.size();i++){
@@ -74,16 +71,10 @@ public class OutputThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try {
-                // TODO: 2016/9/5 map去除当前outStream
-                // map.remove();
-                if (dos != null)
-                    dos.close();
-                if (socket != null)
-                    socket.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            // TODO: 2016/9/5 map去除当前outStream
+            // map.remove();
+            XUtil.closeDataOutputStream(dos);
+            XUtil.closeSocket(socket);
         }
     }
 }
