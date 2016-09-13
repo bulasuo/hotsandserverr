@@ -41,14 +41,66 @@ public class test {
         return ((bytes[0] & 0xff) << 24) + ((bytes[1] & 0xff) << 16) + ((bytes[2] & 0xff) << 8) + (bytes[3] & 0xff);
     }
     
+    public static test instance;
     
+	public static test getInstance(String s){
+		synchronized (instance) {
+			if(instance == null)
+				instance = new test();
+			
+			System.out.println(s);
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return instance;
+		}
+	}
+	
+	public static class MyThread extends Thread{
+		
+		
+		@Override
+		public void run() {
+			super.run();
+			
+			for(int i = 0;i<5;i++){
+				getInstance("aaaT");
+			}
+		}
+	}
+	
+public static class MyThread1 extends Thread{
+		
+		
+		@Override
+		public void run() {
+			super.run();
+			
+			for(int i = 0;i<5;i++){
+				getInstance("bbbT");
+			}
+		}
+	}
 
+    
+    
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"
-				   .equals("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"));
+		new MyThread().start();
+		
+		new MyThread1().start();
+		
+		
+		
+		
+		
+//		System.out.println("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"
+//				   .equals("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"));
 		
 		
 		/*Socket socket = new Socket();
