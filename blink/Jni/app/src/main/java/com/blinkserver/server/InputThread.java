@@ -131,7 +131,6 @@ public class InputThread extends Thread {
                 this.keyBytesAES = readAESKey(XUtil.byteArray2Int(buffer, bufferIndex - 4));
                 if(isPackLegal()){
                     //AESKeyBytes
-                    System.out.println("AESKey:"+XUtil.bytes2HexString(keyBytesAES));
                     out.keyBytesAES = this.keyBytesAES;
                 } else {
                     this.keyBytesAES = null;
@@ -166,7 +165,6 @@ public class InputThread extends Thread {
     private byte[] readAESKey(int length) throws Exception {
         byte[] temp = new byte[length];
         readDataIntoBuffer(temp, length);
-        System.out.println("\nreadAES:"+temp.length+"-"+XUtil.bytes2HexString(temp));
         return SecurityHS.RSADecode(temp, keyPrivateRSA);
     }
 
