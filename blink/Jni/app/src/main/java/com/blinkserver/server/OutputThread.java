@@ -14,7 +14,6 @@ import java.util.ArrayList;
  * @author abu   2016/9/6   10:06
  */
 public class OutputThread extends Thread {
-    private OutputThreadMap map;
     private DataOutputStream dos;
     private ArrayList<TranProtocol> tranProtocolList = new ArrayList<>();
     public boolean tryDestroy = false;
@@ -30,10 +29,9 @@ public class OutputThread extends Thread {
     }
 
 
-    public OutputThread(Socket socket, OutputThreadMap map) {
+    public OutputThread(Socket socket) {
         try {
             this.socket = socket;
-            this.map = map;
             dos = new DataOutputStream(socket.getOutputStream());// 在构造器里面实例化对象输出流
         } catch (IOException e) {
             e.printStackTrace();

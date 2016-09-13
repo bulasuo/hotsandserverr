@@ -21,7 +21,6 @@ import java.util.ArrayList;
 public class InputThread extends Thread {
     private Socket socket;
     private OutputThread out;
-    private OutputThreadMap map;
     private DataInputStream dis;
     private FileOutputStream fos;
     private ArrayList<String> fileList;
@@ -31,11 +30,13 @@ public class InputThread extends Thread {
 
     private boolean tryDestroy = false;
     private static final int BUFFER_MAX_LENGTH = 1024;
+    private static final int IMG_BUFF_MAX = 1024;
+
 
     private byte[] buffer = new byte[BUFFER_MAX_LENGTH];
     private int bufferIndex = 0;//buffer实际数据长度,也是实际数据最后一位索引加1
 
-
+    
     private int readLength;
 
     public void tryDestroy(){
@@ -47,10 +48,9 @@ public class InputThread extends Thread {
     }
 
 
-    public InputThread(Socket socket, OutputThread out, OutputThreadMap map, Key keyPrivateRSA) {
+    public InputThread(Socket socket, OutputThread out, Key keyPrivateRSA) {
         this.socket = socket;
         this.out = out;
-        this.map = map;
         this.keyPrivateRSA = keyPrivateRSA;
         try {
             dis = new DataInputStream(socket.getInputStream());// 实例化对象输入流
@@ -78,6 +78,7 @@ public class InputThread extends Thread {
             XUtil.closeDataInputStream(dis);
             XUtil.closeSocket(socket);
             XUtil.deleteDir(fileList);
+            // TODO: 2016/9/13 从inputStream里去除
         }
     }
 
@@ -168,7 +169,6 @@ public class InputThread extends Thread {
      *@author   abu   2016/9/5   14:50
      */
     private String readImg(int length, ArrayList<String> fileList) throws Exception {
-        final int IMG_BUFF_MAX = 1024;
         byte[] imgBuf = new byte[IMG_BUFF_MAX];
         final String filePath = Config.IMG_PATH + SecurityHS.MD5Encode(System.currentTimeMillis() + "");
         fos = new FileOutputStream(new File(filePath));

@@ -56,21 +56,27 @@ public class Server {
         private Socket socket = null;
         private InputThread in;
         private OutputThread out;
-        private OutputThreadMap map;
 
         public SocketTask(Socket socket) {
             this.socket = socket;
-            map = OutputThreadMap.getInstance();
+            socket的api?
         }
 
         @Override
         public void run() {
             try {
                 SecurityHS.RSAKeyParMaker mRSAKeyParMaker = new SecurityHS.RSAKeyParMaker();
-                out = new OutputThread(socket, map);
-                in = new InputThread(socket, out, map, mRSAKeyParMaker.privateKey);
+                out = new OutputThread(socket);
+                in = new InputThread(socket, out, mRSAKeyParMaker.privateKey);
                 in.start();
                 out.start();
+
+                final OutputThread outT = OutputThreadMap.add(socket.getInetAddress().getHostAddress(), out);
+                if(outT != null){
+                    out.tryDestroy();
+                    socket.shutdownInput();
+                }
+
                 TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
                 out.sendMessage(tranProtocol);
             } catch (Exception e) {
