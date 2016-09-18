@@ -6,6 +6,7 @@ import com.blinkserver.util.MyDate;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
@@ -26,7 +27,9 @@ public class Server {
         try {
             executorService = Executors.newFixedThreadPool(Runtime.getRuntime()
                     .availableProcessors() * 50);
-            serverSocket = new ServerSocket(Config.SERVER_PORT);
+            serverSocket = new ServerSocket();
+//            serverSocket.setReceiveBufferSize(1024 * 10); //设置缓存区的大小
+            serverSocket.bind(new InetSocketAddress(Config.SERVER_PORT));
         } catch (IOException e) {
             e.printStackTrace();
             quit();
@@ -59,7 +62,6 @@ public class Server {
 
         public SocketTask(Socket socket) {
             this.socket = socket;
-            socket的api?
         }
 
         @Override
@@ -70,13 +72,6 @@ public class Server {
                 in = new InputThread(socket, out, mRSAKeyParMaker.privateKey);
                 in.start();
                 out.start();
-
-                final OutputThread outT = OutputThreadMap.add(socket.getInetAddress().getHostAddress(), out);
-                if(outT != null){
-                    out.tryDestroy();
-                    socket.shutdownInput();
-                }
-
                 TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
                 out.sendMessage(tranProtocol);
             } catch (Exception e) {
@@ -84,6 +79,17 @@ public class Server {
                 in.tryDestroy();
                 e.printStackTrace();
                 System.out.println("生成RSA秘钥对失败!");
+            }
+
+            try {
+                final OutputThread outT = OutputThreadMap.add(socket.getInetAddress().getHostAddress(), out);
+                if (outT != null && !outT.socket.isClosed()) {
+                    outT.socket.shutdownInput();
+                    outT.tryDestroy();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                System.out.println("关闭上一个相同ip的socket出现异常!!");
             }
         }
     }

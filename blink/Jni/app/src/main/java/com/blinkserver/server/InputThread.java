@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.blinkserver.Config;
 import com.blinkserver.security.SecurityHS;
 import com.blinkserver.util.XUtil;
-
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,10 +60,9 @@ public class InputThread extends Thread {
 
     @Override
     public void run() {
+        super.run();
         try {
             while (!isInterrupted() && !socket.isClosed() && !tryDestroy) {
-                // TODO: 2016/9/5 心跳包
-                //增加一个5分钟没有连接就断开 防止客户端意外断开
                 readMessage();
             }
         } catch (Exception e) {
@@ -78,7 +76,7 @@ public class InputThread extends Thread {
             XUtil.closeDataInputStream(dis);
             XUtil.closeSocket(socket);
             XUtil.deleteDir(fileList);
-            // TODO: 2016/9/13 从inputStream里去除
+            System.out.println("in_shutdown");
         }
     }
 

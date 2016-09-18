@@ -1,8 +1,6 @@
 package com.blinkserver.server;
 
-
 import com.blinkserver.util.XUtil;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -17,7 +15,8 @@ public class OutputThread extends Thread {
     private DataOutputStream dos;
     private ArrayList<TranProtocol> tranProtocolList = new ArrayList<>();
     public boolean tryDestroy = false;
-    private Socket socket;
+    public Socket socket;
+    public Integer id;// TODO: 2016/9/18 当用户登录后要给id赋值
     public byte[] keyBytesAES;//AES口令bytes 用于加密数据
     public boolean isLogin = false;//记录用户是否有个人权限
 
@@ -47,6 +46,7 @@ public class OutputThread extends Thread {
 
     @Override
     public void run() {
+        super.run();
         try {
             while (true) {
                 synchronized (this) {
@@ -69,10 +69,10 @@ public class OutputThread extends Thread {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            // TODO: 2016/9/5 map去除当前outStream
-            // map.remove();
+            OutputThreadMap.remove(id, socket.getInetAddress().getHostAddress());
             XUtil.closeDataOutputStream(dos);
             XUtil.closeSocket(socket);
+            System.out.println("out_shutdown");
         }
     }
 }

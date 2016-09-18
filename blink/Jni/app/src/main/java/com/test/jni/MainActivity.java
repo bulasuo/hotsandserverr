@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                         System.out.println("startHHH");
                         try {
                             Socket socket = new Socket();
-                            socket.connect(new InetSocketAddress("192.168.1.107", 8080), 1000);
+                            socket.connect(new InetSocketAddress("192.168.1.118", 8001), 1000);
                             DataInputStream dis = null;
                             try {
                                 dis = new DataInputStream(socket.getInputStream());// 实例化对象输入流
