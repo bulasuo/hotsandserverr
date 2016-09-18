@@ -116,4 +116,5 @@ public class Server {
     }
 
     // TODO: 2016/9/9 要在凌晨4点扫一下所有连接, 僵尸连接就tryDestroy() 
+    // TODO: 2016/9/18 唯一账户登入 设计 
 }
