@@ -87,7 +87,7 @@ public class InputThread extends Thread {
      */
     private void goProtocolType(byte type) throws Exception {
         switch (type) {
-            case (byte) 0x01:
+            case TranProtocol.TP_JSONSTR:
                 if (keyBytesAES == null) {
                     stopConnect();
                     return;
@@ -110,7 +110,7 @@ public class InputThread extends Thread {
                     stopConnect();
                 }
                 break;
-            case (byte) 0xff:
+            case TranProtocol.TP_SSH:
                 readData(bufferIndex + 4);
                 this.keyBytesAES = readAESKey(XUtil.byteArray2Int(buffer, bufferIndex - 4));
                 if(isPackLegal()){

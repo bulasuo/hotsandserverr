@@ -16,6 +16,8 @@ import java.util.UUID;
 public class TranProtocol {
     public static final byte[] HEAD = "--".getBytes();
     public static final byte[] LINE = "\r\n".getBytes();
+    public static final byte TP_JSONSTR = (byte)0x01;
+    public static final byte TP_SSH = (byte)0xff;
 
     private byte protocolType;//协议类型
     private Key keyPublicRSA;//RSA公钥 用于给客户端
@@ -35,10 +37,10 @@ public class TranProtocol {
 
     public void sendData(DataOutputStream dos) throws Exception {
         switch(protocolType) {
-            case (byte)0x01:
+            case TP_JSONSTR:
                 sendJsonStr(dos);
                 break;
-            case (byte)0xff:
+            case TP_SSH:
                 sendRSAPublicKey(dos);
                 break;
             default:
@@ -55,7 +57,7 @@ public class TranProtocol {
         dos.write(boundaryBytes);
         dos.write(LINE);
         //协议类型 0xff服务端给客户端的RSA公钥
-        dos.write((byte) 0xff);
+        dos.write(TP_SSH);
         dos.write(XUtil.int2ByteArray(RSAPublicKeyBytes.length));
         dos.write(RSAPublicKeyBytes);
         dos.write(HEAD);
@@ -80,7 +82,7 @@ public class TranProtocol {
         dos.write(boundaryBytes);
         dos.write(LINE);
         //协议类型 0x01
-        dos.write((byte) 0x01);
+        dos.write(TP_JSONSTR);
         //jsonStr个数
         dos.write((byte) 0x01);
         //文件个数为0,

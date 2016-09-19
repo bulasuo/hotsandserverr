@@ -72,7 +72,7 @@ public class Server {
                 in = new InputThread(socket, out, mRSAKeyParMaker.privateKey);
                 in.start();
                 out.start();
-                TranProtocol tranProtocol = new TranProtocol((byte)0xff, mRSAKeyParMaker.publicKey);
+                TranProtocol tranProtocol = new TranProtocol(TranProtocol.TP_SSH, mRSAKeyParMaker.publicKey);
                 out.sendMessage(tranProtocol);
             } catch (Exception e) {
                 out.tryDestroy();
@@ -112,7 +112,6 @@ public class Server {
         if(!file.exists())
             file.mkdirs();
         new Server().start();
-
     }
 
     // TODO: 2016/9/9 要在凌晨4点扫一下所有连接, 僵尸连接就tryDestroy() 
