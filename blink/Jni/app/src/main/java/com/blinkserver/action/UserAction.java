@@ -42,5 +42,9 @@ public class UserAction implements ActionInterface{
         }
     }
 
+    private static void do_USER_GET_SMS(OutputThread out, JSONObject json){
+
+    }
+
 
 }

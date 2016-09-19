@@ -72,6 +72,7 @@ public class ActionFilter implements ActionInterface{
                 TopicAction.doAction(out, json);
                 break;
             default:
+                System.out.println("action::"+json.getIntValue(KEY.ACTION));
                 // TODO: 2016/9/6 该action没有?
                 break;
         }
