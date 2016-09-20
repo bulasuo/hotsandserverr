@@ -85,19 +85,31 @@ public static class MyThread1 extends Thread{
 		}
 	}
 
+    private static void f0(String s){
+    	try{
+    		f1(s);
+    	}catch(Exception e){}
+    }
     
+    private static void f1(String s){
+    	if(s == null)
+    		throw new IllegalArgumentException("null");
+    	System.out.println("f1_end");
+    }
     
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		new MyThread().start();
 		
-		new MyThread1().start();
+		final JSONObject json = new JSONObject();
+        json.put("ActionInterface.KEY.ACTION", 11);
+        json.put("ActionInterface.KEY.TAG", "获取短信验证码");
+        System.out.println("::"+json.toJSONString());
 		
 		
-		
-		
+		/*f0(null);
+		System.out.println("all_end");*/
 		
 //		System.out.println("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"
 //				   .equals("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"));
