@@ -1,6 +1,7 @@
 package com.blinkserver.server;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.blinkserver.security.SecurityHS;
 import com.blinkserver.util.XUtil;
 
@@ -23,7 +24,7 @@ public class TranProtocol {
     private Key keyPublicRSA;//RSA公钥 用于给客户端
     public byte[] keyBytesAES;//AES口令bytes 用于加密数据
 
-    private TranObj tranObj;//传输数据格式,比如json
+    private TranObj<JSONObject> tranObj;//传输数据格式,比如json
 
     private byte fileCounts = (byte)0x00;
 
