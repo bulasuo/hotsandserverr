@@ -105,7 +105,7 @@ public static class MyThread1 extends Thread{
 		final JSONObject json = new JSONObject();
         json.put("ActionInterface.KEY.ACTION", 11);
         json.put("ActionInterface.KEY.TAG", "获取短信验证码");
-        System.out.println("::"+json.toJSONString());
+        System.out.println(":--:"+json.getInteger("ActionInterface.KEY.ACTION"));
 		
 		
 		/*f0(null);

@@ -14,11 +14,18 @@ import java.util.ArrayList;
 public class OutputThread extends Thread {
     private DataOutputStream dos;
     private ArrayList<TranProtocol> tranProtocolList = new ArrayList<>();
+    //考虑一下上面几个public成员会不会被多线程调用?  这里的几个public都没有被多线程调用先不同步了
     public boolean tryDestroy = false;
     public Socket socket;
     public Integer id;// TODO: 2016/9/18 当用户登录后要给id赋值
     public byte[] keyBytesAES;//AES口令bytes 用于加密数据
     public boolean isLogin = false;//记录用户是否有个人权限
+
+    //短信验证码 和 短信验证码有效时间
+    public long sms_start = 0;
+    public String smsStr;
+    public String phone;
+
 
     public void tryDestroy() {
         tryDestroy = true;

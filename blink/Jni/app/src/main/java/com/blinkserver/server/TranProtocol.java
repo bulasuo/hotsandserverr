@@ -35,6 +35,11 @@ public class TranProtocol {
         this.keyPublicRSA = keyPublicRSA;
     }
 
+    public TranProtocol(byte protocolType, TranObj tranObj){
+        this.protocolType = protocolType;
+        this.tranObj = tranObj;
+    }
+
 
     public void sendData(DataOutputStream dos) throws Exception {
         switch(protocolType) {

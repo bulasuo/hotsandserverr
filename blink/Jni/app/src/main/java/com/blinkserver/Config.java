@@ -16,6 +16,9 @@ public class Config {
     public static final String MYSQL_USER_NAME = "root";
     public static final String MYSQL_PASSWORD = "bulasuo@0220";
 
+    //包含了接口key和短信模板id
+    public static final String SMS_API_URL = "http://apis.haoservice.com/sms/send?key=55e358f3198e46a4840c02f10fd4cb6d&tpl_id=1975";
+
     public static final String IMG_PATH = "D:/img/";
 
 }
