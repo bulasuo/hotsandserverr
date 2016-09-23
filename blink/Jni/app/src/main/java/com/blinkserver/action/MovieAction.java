@@ -9,17 +9,17 @@ import com.blinkserver.server.OutputThread;
 public class MovieAction implements ActionInterface{
 
     public static void doAction(OutputThread out, JSONObject json){
-        switch(json.getIntValue(KEY.ACTION)){
-            case VALUE.MOVIE__INSERT:
+        switch(json.getIntValue(Key.ACTION)){
+            case ActionInt.MOVIE__INSERT:
 
                 break;
-            case VALUE.MOVIE__DELETE:
+            case ActionInt.MOVIE__DELETE:
 
                 break;
-            case VALUE.MOVIE__UPDATE:
+            case ActionInt.MOVIE__UPDATE:
 
                 break;
-            case VALUE.MOVIE__QUERY:
+            case ActionInt.MOVIE__QUERY:
 
                 break;
             default:

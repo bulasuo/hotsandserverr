@@ -9,17 +9,17 @@ import com.blinkserver.server.OutputThread;
 public class BookAction implements ActionInterface{
 
     public static void doAction(OutputThread out, JSONObject json){
-        switch(json.getIntValue(KEY.ACTION)){
-            case VALUE.BOOK__INSERT:
+        switch(json.getIntValue(Key.ACTION)){
+            case ActionInt.BOOK__INSERT:
 
                 break;
-            case VALUE.BOOK__DELETE:
+            case ActionInt.BOOK__DELETE:
 
                 break;
-            case VALUE.BOOK__UPDATE:
+            case ActionInt.BOOK__UPDATE:
 
                 break;
-            case VALUE.BOOK__QUERY:
+            case ActionInt.BOOK__QUERY:
 
                 break;
             default:

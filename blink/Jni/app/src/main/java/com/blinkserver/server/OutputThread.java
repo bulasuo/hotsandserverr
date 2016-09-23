@@ -21,9 +21,9 @@ public class OutputThread extends Thread {
     public byte[] keyBytesAES;//AES口令bytes 用于加密数据
     public boolean isLogin = false;//记录用户是否有个人权限
 
-    //短信验证码 和 短信验证码有效时间
+    //短信验证码 和 短信验证码有效时间(ps: 注意这些状态值都会随着连接断开而丢失,即数据失效)
     public long sms_start = 0;
-    public String smsStr;
+    public String checkCode;
     public String phone;
 
 

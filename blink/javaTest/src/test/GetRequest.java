@@ -2,6 +2,7 @@ package test;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -49,9 +50,10 @@ public class GetRequest {
 	
 	/**
 	 * @param args
+	 * @throws UnsupportedEncodingException 
 	 */
-	public static void main(String[] args) {
-		String params = "key=55e358f3198e46a4840c02f10fd4cb6d&mobile=15062239769&tpl_id=1975&tpl_value="+UrlEncoded.encodeString("#code#=123!!455");
+	public static void main(String[] args) throws UnsupportedEncodingException {
+		String params = "key=55e358f3198e46a4840c02f10fd4cb6d&mobile=15062239769&tpl_id=1975&tpl_value="+URLEncoder.encode("#code#=123!!455", "utf-8");
 		System.out.println(sendGet("http://apis.haoservice.com/sms/send", params)+"\n"+params);
 //		{"error_code":0,"reason":"成功","result":"2911809"}
 //		{"error_code":0,"reason":"成功","result":"2911811"}

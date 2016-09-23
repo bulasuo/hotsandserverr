@@ -12,7 +12,12 @@ public class exceptionTest {
 	}
 	
 	public static void say0(String s) throws Exception{
+		try{
 		say1(s);
+		}catch(Exception e){
+			
+			System.out.println("ininin");
+		}
 	}
 	
 	/**

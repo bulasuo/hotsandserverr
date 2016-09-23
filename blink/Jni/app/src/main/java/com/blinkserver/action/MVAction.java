@@ -9,17 +9,17 @@ import com.blinkserver.server.OutputThread;
 public class MVAction implements ActionInterface{
 
     public static void doAction(OutputThread out, JSONObject json){
-        switch(json.getIntValue(KEY.ACTION)){
-            case VALUE.MV__INSERT:
+        switch(json.getIntValue(Key.ACTION)){
+            case ActionInt.MV__INSERT:
 
                 break;
-            case VALUE.MV__DELETE:
+            case ActionInt.MV__DELETE:
 
                 break;
-            case VALUE.MV__UPDATE:
+            case ActionInt.MV__UPDATE:
 
                 break;
-            case VALUE.MV__QUERY:
+            case ActionInt.MV__QUERY:
 
                 break;
             default:

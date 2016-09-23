@@ -101,11 +101,14 @@ public static class MyThread1 extends Thread{
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		Integer i = null;
+		double d = Math.random();
+		System.out.println("::"+d+"-"+(int)(d * 1000000));
 		
-		final JSONObject json = new JSONObject();
+		/*final JSONObject json = new JSONObject();
         json.put("ActionInterface.KEY.ACTION", 11);
         json.put("ActionInterface.KEY.TAG", "获取短信验证码");
-        System.out.println(":--:"+json.getInteger("ActionInterface.KEY.ACTION"));
+        System.out.println(":--:"+json.getInteger("ActionInterface.KEY.ACTION"));*/
 		
 		
 		/*f0(null);

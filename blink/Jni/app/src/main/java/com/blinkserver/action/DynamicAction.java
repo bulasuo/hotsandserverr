@@ -9,17 +9,17 @@ import com.blinkserver.server.OutputThread;
 public class DynamicAction implements ActionInterface{
 
     public static void doAction(OutputThread out, JSONObject json){
-        switch(json.getIntValue(KEY.ACTION)){
-            case VALUE.DYNAMIC__INSERT:
+        switch(json.getIntValue(Key.ACTION)){
+            case ActionInt.DYNAMIC__INSERT:
 
                 break;
-            case VALUE.DYNAMIC__DELETE:
+            case ActionInt.DYNAMIC__DELETE:
 
                 break;
-            case VALUE.DYNAMIC__UPFATE:
+            case ActionInt.DYNAMIC__UPFATE:
 
                 break;
-            case VALUE.DYNAMIC__QUERY:
+            case ActionInt.DYNAMIC__QUERY:
 
                 break;
             default:
