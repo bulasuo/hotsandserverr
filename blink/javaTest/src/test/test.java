@@ -101,9 +101,9 @@ public static class MyThread1 extends Thread{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Integer i = null;
+		/*Integer i = null;
 		double d = Math.random();
-		System.out.println("::"+d+"-"+(int)(d * 1000000));
+		System.out.println("::"+d+"-"+(int)(d * 1000000));*/
 		
 		/*final JSONObject json = new JSONObject();
         json.put("ActionInterface.KEY.ACTION", 11);
@@ -114,8 +114,8 @@ public static class MyThread1 extends Thread{
 		/*f0(null);
 		System.out.println("all_end");*/
 		
-//		System.out.println("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"
-//				   .equals("30819f300d06092a864886f70d010101050003818d0030818902818100a009af540a010af935ece3964bf7467ad4b10965ff542d5b514c5735b6909095961516fcdd52c34f60526abd03bab6fa9693064bb36f73ba00d216cceedc95d62b2c85e0c5c7fb64748b1d0de75ba8eca70f31eaa5590c5ef1b642cb407dbfd2e00b6f06b145df56880101f6c006c7c4b529caefc761f2575f0cdc1e14ce73470203010001"));
+		System.out.println("f8d8d9c653b55175c1aee2ef1a01616297b2a00cc58e47b99b5303ae4dbe67a6d9f60577ecfd8313fe17545bd696e1819302612fd9475c2d6e13b1473801293dc5fea865f8903ec4924fe0f09270c87d"
+				   .equals("f8d8d9c653b55175c1aee2ef1a01616297b2a00cc58e47b99b5303ae4dbe67a6d9f60577ecfd8313fe17545bd696e1819302612fd9475c2d6e13b1473801293dc5fea865f8903ec4924fe0f09270c87d"));
 		
 		
 		/*Socket socket = new Socket();

@@ -7,7 +7,6 @@ import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
@@ -16,7 +15,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.UUID;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by abu on 2016/8/26 10:53.
@@ -117,16 +116,24 @@ public class SecurityHS {
      * AES加密
      */
     public static byte[] AESEncode(byte[] data, byte[] key) throws Exception {
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
-        SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
+        try {
+        /*KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
+        *//*SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
         random.setSeed(key);
-        keyGenerator.init(random);
-        Key securekey = keyGenerator.generateKey();
-//        SecureRandom sr = new SecureRandom();
-        Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5PADDING);
-//        cipher.init(Cipher.ENCRYPT_MODE, securekey, sr);
-        cipher.init(Cipher.ENCRYPT_MODE, securekey);
-        data = cipher.doFinal(data);
+        keyGenerator.init(128, random);*//*
+        SecureRandom sr = new SecureRandom(key);
+        keyGenerator.init(sr);
+        Key securekey = keyGenerator.generateKey();*/
+
+            SecretKeySpec securekey = new SecretKeySpec(key, "AES");
+//            SecureRandom sr = new SecureRandom();
+            Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5PADDING);
+            cipher.init(Cipher.ENCRYPT_MODE, securekey);
+//        cipher.init(Cipher.DECRYPT_MODE, securekey);
+            data = cipher.doFinal(data);
+        }catch(Exception e){
+            System.out.println(e.toString());
+        }
         return data;
     }
 
@@ -134,15 +141,19 @@ public class SecurityHS {
      * AES解密
      */
     public static byte[] AESDecode(byte[] data, byte[] key) throws Exception{
-        KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
-        SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
+        /*KeyGenerator keyGenerator = KeyGenerator.getInstance(AES);
+        *//*SecureRandom random=SecureRandom.getInstance("SHA1PRNG");
         random.setSeed(key);
-        keyGenerator.init(random);
-        Key securekey = keyGenerator.generateKey();
+        keyGenerator.init(128, random);*//*
+        SecureRandom sr = new SecureRandom(key);
+        keyGenerator.init(sr);
+        Key securekey = keyGenerator.generateKey();*/
+
+        SecretKeySpec securekey = new SecretKeySpec(key, "AES");
 //        SecureRandom sr = new SecureRandom();
         Cipher cipher = Cipher.getInstance(AES_ECB_PKCS5PADDING);
-//        cipher.init(Cipher.DECRYPT_MODE, securekey, sr);
         cipher.init(Cipher.DECRYPT_MODE, securekey);
+//        cipher.init(Cipher.DECRYPT_MODE, securekey);
         data = cipher.doFinal(data);
         return data;
     }

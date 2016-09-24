@@ -159,7 +159,8 @@ public class InputThread extends Thread {
     private JSONObject readJson(int length) throws Exception {
         byte[] jsonBytes = new byte[length];
         readDataIntoBuffer(jsonBytes, length);
-        System.out.println((keyBytesAES==null)+XUtil.bytes2HexString(jsonBytes));
+        System.out.println("keyBytesAES:"+XUtil.bytes2HexString(keyBytesAES));
+        System.out.println("jsonBytes:"+(keyBytesAES==null)+XUtil.bytes2HexString(jsonBytes));
 
         byte[] bb = SecurityHS.AESDecode(jsonBytes, keyBytesAES);
         System.out.println("bb:"+XUtil.bytes2HexString(bb));
