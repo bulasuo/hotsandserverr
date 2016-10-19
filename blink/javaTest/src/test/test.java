@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.alibaba.fastjson.JSON;
@@ -101,6 +102,10 @@ public static class MyThread1 extends Thread{
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		final ArrayList<String> list = new ArrayList<String>();
+		list.add(null);
+		list.add("sss");
+		System.out.println("::"+list.toString());
 		/*Integer i = null;
 		double d = Math.random();
 		System.out.println("::"+d+"-"+(int)(d * 1000000));*/

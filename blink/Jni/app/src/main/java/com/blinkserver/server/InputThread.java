@@ -255,7 +255,6 @@ public class InputThread extends Thread {
             //不是包头,数据错误 断开等待重连
             stopConnect();
         }
-
     }
 
     /**
